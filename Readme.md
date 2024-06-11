@@ -17,6 +17,8 @@ La licencia puede leerse detalladamente en la copia redistribuída en este proye
 
 # GalariaXes
 
+[demo.webm](https://github.com/peseoane/galariaXes/assets/47398995/fd624673-1f1a-46b1-8656-55cf9bd19986)
+
 GalariaXes es un software que nos facilita una interacción mediante pequeños aplicativos e utilidades, usando WinRM en una
 red de dominio (en el caso del proyecto se usó la del Servizo Galego de Saúde) para mantener inventariado en SQL de modo
 automático dónde están los equipos, sus contratos públicos / menores, garantías, monitores asociados, configuraciones, puesto
@@ -107,7 +109,6 @@ de los equipos y cargar mediante `IEX` el Script desde el aplicativo.
 ## Capturas de pantalla
 
 [![Demo GALARIAXES](./src/main/resources/static/svg/demo.svg)](./src/main/resources/static/video/demo.webm)
-
 
 ## Contacto
 
