@@ -1,0 +1,565 @@
+<!doctype html>
+<html
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div
+            class="card my-3"
+            th:id="'monitor' + ${monitor.id}">
+            <div class="card-header align-middle d-flex">
+                <button
+                    class="btn btn-primary my-auto"
+                    th:onclick="'imprimir(\'monitor' + ${monitor.id} + '\')'">
+                    <i class="bi bi-printer"></i>
+                </button>
+
+                <button
+                    class="btn btn-success my-auto"
+                    hx-swap="outerHTML transition:true"
+                    th:attr="hx-get=@{/panel/aplicativo/explorar/editarMonitorById(id=${monitor.id})}, hx-target = '#monitor' + ${monitor.id}">
+                    <i class="bi bi-pencil"></i>
+                </button>
+
+                <!-- Button trigger modal -->
+                <button
+                    class="btn btn-danger my-auto"
+                    data-bs-toggle="modal"
+                    th:attr="data-bs-target='#modal-confirmDelete' + ${monitor.id}"
+                    type="button">
+                    <i class="bi bi-trash"></i>
+                </button>
+
+                <!-- Botón para añadir incidencias -->
+                <button
+                    th:if="${monitor.etiqueta != null and monitor.etiqueta.id != null}"
+                    class="btn btn-warning my-auto"
+                    data-bs-toggle="modal"
+                    hx-swap="outerHTML transition:true"
+                    hx-target="this"
+                    hx-trigger="click"
+                    th:attr="data-bs-target='#modal-crearIncidencia' + ${monitor.id}, hx-get=@{/panel/aplicativo/explorar/crearIncidenciaByEtiquetaId(id=${monitor.etiqueta.id})}, hx-target='#respuestaCrearModalIncidencia' + ${monitor.id}"
+                    type="button">
+                    <i class="bi bi-exclamation-triangle text-black"></i>
+                </button>
+                <button
+                        th:unless="${monitor.etiqueta != null and monitor.etiqueta.id != null}"
+                        class="btn btn-outline-danger my-auto"
+                        type="button"
+                        disabled>
+                    <i class="bi bi-exclamation-triangle text-black"></i>
+                </button>
+                <!-- Botón para añadir incidencias SOLO disponible si tiene etiqueta si no lanzamos aviso -->
+                <button
+                        th:unless="${monitor.etiqueta != null and monitor.etiqueta.id != null}"
+                        class="btn boton-parpadeo my-auto"
+                        type="button"
+                        disabled>
+                    <i class="bi bi-tag-fill"></i>
+                    <span>SIN ETIQUETA</span>
+                </button>
+                <style>
+                    @keyframes parpadeo {
+                        0% {
+                            border-color: red;
+                            color: red;
+                            background-color: transparent;
+                        }
+                        50% {
+                            border-color: red;
+                            color: #fff;
+                            background-color: red;
+                        }
+                        100% {
+                            border-color: red;
+                            color: red;
+                            background-color: transparent;
+                        }
+                    }
+
+                    .boton-parpadeo {
+                        border: 1px solid red;
+                        color: red;
+                        background-color: transparent;
+                        animation: parpadeo 1s infinite;
+                    }
+                </style>
+
+                <!-- Modal para crear incidencia -->
+                <div
+                    th:if="${monitor.etiqueta != null and monitor.etiqueta.id != null}"
+                    class="modal fade"
+                    tabindex="-1"
+                    th:id="'modal-crearIncidencia' + ${monitor.id}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div
+                            class="modal-content"
+                            th:id="'crearIncidencia' + ${monitor.id}">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Crear Incidencia</h5>
+                                <button
+                                    aria-label="Close"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    th:attr="hx-get=@{/panel/aplicativo/explorar/monitorById(id=${monitor.id})},
+                                hx-swap='outerHTML transition:true',
+                                hx-target='#monitor' + ${monitor.id}"
+                                    type="button"></button>
+                            </div>
+                            <div th:id="'respuestaCrearModalIncidencia' + ${monitor.id}"></div>
+                            <div class="modal-footer">
+                                <button
+                                    class="btn btn-info"
+                                    data-bs-dismiss="modal"
+                                    th:attr="hx-get=@{/panel/aplicativo/explorar/monitorById(id=${monitor.id})},
+                                hx-swap='outerHTML transition:true',
+                                hx-target='#monitor' + ${monitor.id}"
+                                    type="button">
+                                    <span class="bi bi-arrow-return-left"></span>
+                                    <span>Salir y actualizar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5 class="mx-2 my-auto">Equipo [[${monitor?.etiqueta?.referencia}]]</h5>
+
+                <h5 class="mx-2 my-auto">Monitor [[${monitor.numeroSerie}]]</h5>
+            </div>
+            <div class="card-body">
+                <!-- serial number and modelo -->
+                <table class="table table-hover table-bordered mb-3">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Número de serie</th>
+                            <th>Etiqueta</th>
+                            <th>Modelo</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td
+                                class="font-monospace fw-bolder"
+                                th:text="${monitor.numeroSerie}"></td>
+                            <td th:text="${monitor?.etiqueta?.referencia}"></td>
+                            <td
+                                class="font-monospace"
+                                th:text="${monitor.modeloMonitor.referencia}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Modal -->
+                <div
+                    aria-hidden="true"
+                    class="modal fade"
+                    data-bs-backdrop="static"
+                    data-bs-keyboard="false"
+                    tabindex="-1"
+                    th:attr="aria-labelledby='modal-confirmDeleteLabel' + ${monitor.id}"
+                    th:id="'modal-confirmDelete' + ${monitor.id}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5
+                                    class="modal-title"
+                                    th:id="'modal-confirmDeleteLabel' + ${monitor.id}">
+                                    Confirmar eliminación
+                                </h5>
+                                <button
+                                    aria-label="Close"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    type="button"></button>
+                            </div>
+                            <div class="modal-body">¿Estás seguro de que quieres eliminar este elemento?</div>
+                            <div class="modal-footer">
+                                <button
+                                    class="btn btn-success"
+                                    data-bs-dismiss="modal"
+                                    type="button">
+                                    <span class="bi bi-arrow-return-left"></span>
+                                    <span>Cancelar</span>
+                                </button>
+                                <button
+                                    class="btn btn-danger"
+                                    data-bs-dismiss="modal"
+                                    th:attr="hx-get=@{/panel/aplicativo/explorar/eliminarMonitorById(id=${monitor.id})}, hx-swap='outerHTML transition:true', hx-target='#monitor' + ${monitor.id}"
+                                    th:id="'modal-confirmDeleteButton' + ${monitor.id}"
+                                    type="button">
+                                    <span class="bi bi-radioactive"></span>
+                                    <span>Eliminar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Garantía -->
+                <table class="table table-hover table-bordered mb-3">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Contrato</th>
+                            <th>Garantía (fin)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td th:text="${monitor.contrato?.referencia}"></td>
+                            <th th:text="${#temporals.format(monitor?.garantia, 'dd-MM-yyyy')}"></th>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Propietario -->
+                <table class="table table-hover table-bordered mb-3">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Propietario</th>
+                            <th>Servicio</th>
+                            <th>Desde</th>
+                            <th>Notas</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr th:each="traza : ${monitor.getOrdenador()?.getEtiqueta()?.getTrazasAsociadas()}">
+                            <td th:text="${traza.getLocalizacion().getLocalizacion()}"></td>
+                            <td th:text="${traza.getServicio().getServicio()}"></td>
+                            <th th:text="${#temporals.format(traza.getFechaAlta(), 'dd-MM-yyyy')}"></th>
+                            <td th:text="${traza.getNotas()}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Logs -->
+                <div
+                    class="accordion mb-3"
+                    th:attr="data-bs-parent='#accordionLogs_' + ${monitor.id}"
+                    th:id="'accordionLogs_' + ${monitor.id}">
+                    <div class="accordion-item">
+                        <h2
+                            class="accordion-header"
+                            th:id="'headingLogs_' + ${monitor.id}">
+                            <button
+                                aria-controls="'collapseLogs_' + ${monitor.id}"
+                                aria-expanded="false"
+                                class="accordion-button collapsed"
+                                th:attr="data-bs-toggle='collapse', data-bs-target='#collapseLogs_' + ${monitor.id}"
+                                type="button">
+                                <div class="my-auto d-flex align-middle justify-content-between h-100">
+                                    <span class="bi bi-list-columns-reverse"></span>
+                                    <span class="mx-1">Logs</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div
+                            class="accordion-collapse collapse"
+                            th:attr="aria-labelledby='headingLogs_' + ${monitor.id}"
+                            th:id="'collapseLogs_' + ${monitor.id}">
+                            <table class="table table-hover table-bordered">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Logs</th>
+                                        <th>Tipo</th>
+                                        <th>Descripción</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <tr
+                                        class="small"
+                                        th:each="log : ${monitor?.getEtiqueta()?.getLogsAsociados()}">
+                                        <th th:text="${#temporals.format(log.getFecha(), 'dd-MM-yyyy')}"></th>
+                                        <td th:text="${log.getNivel().getNivel()}"></td>
+                                        <td th:text="${log.getDescripcion()}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Incidencias -->
+                <div
+                    class="accordion mb-3"
+                    th:attr="data-bs-parent='#accordionIncidencias_' + ${monitor.id}"
+                    th:id="'accordionIncidencias_' + ${monitor.id}">
+                    <div class="accordion-item">
+                        <h2
+                            class="accordion-header"
+                            th:id="'headingIncidencias_' + ${monitor.id}">
+                            <button
+                                aria-controls="'collapseIncidencias_' + ${monitor.id}"
+                                aria-expanded="false"
+                                class="accordion-button collapsed"
+                                th:attr="data-bs-toggle='collapse', data-bs-target='#collapseIncidencias_' + ${monitor.id}"
+                                type="button">
+                                <div class="my-auto d-flex align-middle justify-content-between h-100">
+                                    <span class="bi bi-exclamation-triangle"></span>
+                                    <span class="mx-1">Incidencias</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div
+                            class="accordion-collapse collapse"
+                            th:attr="aria-labelledby='headingIncidencias_' + ${monitor.id}"
+                            th:id="'collapseIncidencias_' + ${monitor.id}">
+                            <table class="table table-hover table-bordered">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>OPS</th>
+                                        <th>Fecha alta</th>
+                                        <th>Fecha actualización</th>
+                                        <th>Estado</th>
+                                        <th>Descripción</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <tr
+                                        class="small"
+                                        th:each="incidencia : ${monitor?.getEtiqueta()?.getIncidenciasAsociadas()}"
+                                        th:id="'incidencia' + ${incidencia.id}">
+                                        <th class="btn-group">
+                                            <!-- Borrar incidencia por id -->
+                                            <button
+                                                class="btn btn-danger"
+                                                data-bs-toggle="modal"
+                                                th:attr="data-bs-target='#modal-confirmDeleteIncidencia' + ${incidencia.id}"
+                                                type="button">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+
+                                            <!-- Modal de confirmación para eliminar incidencia -->
+                                            <div
+                                                aria-hidden="true"
+                                                aria-labelledby="'modalLabelDelete' + ${incidencia.id}"
+                                                class="modal fade"
+                                                tabindex="-1"
+                                                th:id="'modal-confirmDeleteIncidencia' + ${incidencia.id}">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5
+                                                                class="modal-title"
+                                                                th:id="'modalLabelDelete' + ${incidencia.id}">
+                                                                Confirmar eliminación
+                                                            </h5>
+
+                                                            <button
+                                                                aria-label="Close"
+                                                                class="btn-close"
+                                                                data-bs-dismiss="modal"
+                                                                th:attr="hx-get=@{/panel/aplicativo/explorar/monitorById(id=${monitor.id})},
+                                                hx-swap='outerHTML transition:true',
+                                                hx-target='#monitor' + ${monitor.id}"
+                                                                type="button"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            ¿Estás seguro de que deseas eliminar esta incidencia?
+                                                            <div th:id="'respuestaEliminarIncidencia' + ${incidencia.id}"></div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <!-- Botón de cancelar, NOS RECARGA la entidad al volver atrás -->
+                                                            <button
+                                                                class="btn btn-secondary"
+                                                                data-bs-dismiss="modal"
+                                                                th:attr="hx-get=@{/panel/aplicativo/explorar/monitorById(id=${monitor.id})},
+                                                hx-swap='outerHTML transition:true',
+                                                hx-target='#monitor' + ${monitor.id}"
+                                                                type="button">
+                                                                <span class="bi bi-arrow-return-left"></span>
+                                                                <span>Cancelar</span>
+                                                            </button>
+                                                            <!-- Botón de confirmación de eliminación de incidencia -->
+                                                            <form
+                                                                hx-trigger="click, submit"
+                                                                th:attr="hx-post=@{/panel/aplicativo/explorar/eliminarIncidenciaById(id=${incidencia.id})},
+                                                hx-swap='outerHTML transition:true',
+                                                hx-target='#respuestaEliminarIncidencia' + ${incidencia.id}">
+                                                                <input th:replace="~{fragments/csrf}" />
+                                                                <button
+                                                                    class="btn btn-danger"
+                                                                    type="submit">
+                                                                    <span class="bi bi-radioactive"></span>
+                                                                    <span>Eliminar</span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Editar incidencia por id -->
+                                            <button
+                                                class="btn btn-success"
+                                                data-bs-toggle="modal"
+                                                hx-swap="innerHTML transition:true"
+                                                hx-target="this"
+                                                hx-trigger="click"
+                                                th:attr="data-bs-target='#modal-editIncidencia' + ${incidencia.id},
+                                hx-get=@{/panel/aplicativo/explorar/editarIncidenciaById(id=${incidencia.id})},
+                                hx-target='#respuestaEditarModalIncidencia' + ${incidencia.id}"
+                                                type="button">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+
+                                            <!-- Modal para editar incidencia -->
+                                            <div
+                                                class="modal fade"
+                                                tabindex="-1"
+                                                th:id="'modal-editIncidencia' + ${incidencia.id}">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div
+                                                        class="modal-content"
+                                                        th:id="'editarIncidencia' + ${incidencia.id}">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Editar Incidencia</h5>
+                                                            <button
+                                                                aria-label="Close"
+                                                                class="btn-close"
+                                                                data-bs-dismiss="modal"
+                                                                th:attr="hx-get=@{/panel/aplicativo/explorar/monitorById(id=${monitor.id})},
+                                                hx-swap='outerHTML transition:true',
+                                                hx-target='#monitor' + ${monitor.id}"
+                                                                type="button"></button>
+                                                        </div>
+                                                        <div th:id="'respuestaEditarModalIncidencia' + ${incidencia.id}"></div>
+                                                        <div class="modal-footer">
+                                                            <button
+                                                                class="btn btn-info"
+                                                                data-bs-dismiss="modal"
+                                                                th:attr="hx-get=@{/panel/aplicativo/explorar/monitorById(id=${monitor.id})},
+                                                hx-swap='outerHTML transition:true',
+                                                hx-target='#monitor' + ${monitor.id}"
+                                                                type="button">
+                                                                <span class="bi bi-arrow-return-left"></span>
+                                                                <span>Salir y actualizar</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th
+                                            class="col-2"
+                                            th:text="${#temporals.format(incidencia?.getFechaAlta(), 'dd-MM-yyyy hh:mm')}"></th>
+                                        <th
+                                            class="col-2"
+                                            th:text="${#temporals.format(incidencia?.getFechaActualizacion(), 'dd-MM-yyyy hh:mm')}"></th>
+                                        <td
+                                            class="col-2"
+                                            th:text="${incidencia?.getEstado()?.getEstado()}"></td>
+                                        <td class="col-6">
+                                            <span
+                                                th:if="${#strings.length(incidencia?.getDescripcion()) > 64}"
+                                                th:text="${incidencia?.getDescripcion().substring(0, 64)} + '...'"></span>
+                                            <span
+                                                th:text="${incidencia?.getDescripcion()}"
+                                                th:unless="${#strings.length(incidencia?.getDescripcion()) > 64}"></span>
+                                            <button
+                                                class="btn btn-info p-0"
+                                                data-bs-toggle="modal"
+                                                th:attr="data-bs-target='#descripcionModal' + ${incidencia.id}"
+                                                th:if="${#strings.length(incidencia?.getDescripcion()) > 64}">
+                                                <span class="bi bi-info-circle"></span>
+                                            </button>
+                                            <div
+                                                aria-hidden="true"
+                                                aria-labelledby="'descripcionModalLabel' + ${incidencia.id}"
+                                                class="modal fade"
+                                                tabindex="-1"
+                                                th:id="'descripcionModal' + ${incidencia.id}">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5
+                                                                class="modal-title"
+                                                                th:id="'descripcionModalLabel' + ${incidencia.id}">
+                                                                Descripción completa
+                                                            </h5>
+                                                            <button
+                                                                aria-label="Close"
+                                                                class="btn-close"
+                                                                data-bs-dismiss="modal"
+                                                                type="button"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p th:text="${incidencia?.getDescripcion()}"></p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button
+                                                                class="btn btn-secondary"
+                                                                data-bs-dismiss="modal"
+                                                                type="button">
+                                                                Cerrar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Propietarios -->
+                    <div
+                        class="accordion mb-3 mt-3"
+                        th:attr="data-bs-parent='#accordionTrazabilidades_' + ${monitor.id}"
+                        th:id="'accordionTrazabilidades_' + ${monitor.id}">
+                        <div class="accordion-item">
+                            <h2
+                                class="accordion-header"
+                                th:id="'headingTrazabilidades_' + ${monitor.id}">
+                                <button
+                                    aria-controls="'collapseTrazabilidades_' + ${ordenador.id}"
+                                    aria-expanded="false"
+                                    class="accordion-button collapsed"
+                                    th:attr="data-bs-toggle='collapse', data-bs-target='#collapseTrazabilidades_' + ${monitor.id}"
+                                    type="button">
+                                    <div class="my-auto d-flex align-middle justify-content-between h-100">
+                                        <span class="bi bi-person-badge"></span>
+                                        <span class="mx-1">Propietarios</span>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div
+                                class="accordion-collapse collapse"
+                                th:attr="aria-labelledby='headingTrazabilidades_' + ${monitor.id}"
+                                th:id="'collapseTrazabilidades_' + ${monitor.id}">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th>Fecha Alta</th>
+                                            <th>Fecha Actualización</th>
+                                            <th>Baja</th>
+                                            <th>Servicio</th>
+                                            <th>Localizacion</th>
+                                            <th>Notas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr
+                                            class="small"
+                                            th:each="traza : ${monitor?.getEtiqueta()?.getTrazasAsociadas()}">
+                                            <th th:text="${#temporals.format(traza?.getFechaAlta(), 'dd-MM-yyyy')}"></th>
+                                            <th th:text="${#temporals.format(traza?.getFechaActualizacion(), 'dd-MM-yyyy')}"></th>
+                                            <th th:text="${#temporals.format(traza?.getFechaBaja(), 'dd-MM-yyyy')}"></th>
+                                            <td th:text="${traza?.getServicio()?.getServicio()}"></td>
+                                            <td th:text="${traza?.getLocalizacion()?.getLocalizacion()}"></td>
+                                            <td th:text="${traza?.getNotas()}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+        <meta
+            http-equiv="X-UA-Compatible"
+            content="ie=edge" />
+        <title>Vista general garantías</title>
+    </head>
+    <body>
+        <div class="container my-5">
+            <div class="container my-5">
+                <h1 class="text-center mb-4">Vista general de garantías</h1>
+
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <h2 class="mb-3">Ordenadores con garantía</h2>
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>Referencia</th>
+                                    <th>Garantía</th>
+                                    <th>Caducará en</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="ordenador : ${ordenadoresConGarantia}">
+                                    <td th:text="${ordenador.etiqueta.referencia}">Referencia</td>
+                                    <td th:text="${#temporals.format(ordenador.garantia, 'dd/MM/yyyy')}">Garantía</td>
+                                    <td
+                                            th:text="${garantiaService.calcularTiempoTranscurrido(ordenador.garantia)}">Caducará</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <h2 class="mb-3">Ordenadores sin garantía</h2>
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-danger">
+                                <tr>
+                                    <th>Referencia</th>
+                                    <th>Garantía</th>
+                                    <th>Caducó hace</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="ordenador : ${ordenadoresSinGarantia}">
+                                    <td th:text="${ordenador.etiqueta.referencia}">Referencia</td>
+                                    <td th:text="${#temporals.format(ordenador.garantia, 'dd/MM/yyyy')}">Garantía</td>
+                                    <td th:text="${garantiaService.calcularTiempoTranscurrido(ordenador.garantia)}">Caducó hace</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <h2 class="mb-3">Monitores con garantía</h2>
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>Referencia</th>
+                                    <th>Garantía</th>
+                                    <th>Caducará en</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="monitor : ${monitoresConGarantia}">
+                                    <td th:text="${monitor.modeloMonitor?.referencia}">Referencia</td>
+                                    <td th:text="${#temporals.format(monitor.garantia, 'dd/MM/yyyy')}">Garantía</td>
+                                    <td
+                                            th:text="${garantiaService.calcularTiempoTranscurrido(monitor.garantia)}">Caducará</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <h2 class="mb-3">Monitores sin garantía</h2>
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-danger">
+                                <tr>
+                                    <th>Referencia</th>
+                                    <th>Garantía</th>
+                                    <th>Caducó hace</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="monitor : ${monitoresSinGarantia}">
+                                    <td th:text="${monitor.modeloMonitor?.referencia}">Referencia</td>
+                                    <td th:text="${#temporals.format(monitor.garantia, 'dd/MM/yyyy')}">Garantía</td>
+                                    <td th:text="${garantiaService.calcularTiempoTranscurrido(monitor.garantia)}">Caducó hace</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

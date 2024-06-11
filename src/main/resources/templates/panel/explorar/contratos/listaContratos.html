@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+        <meta
+            http-equiv="X-UA-Compatible"
+            content="ie=edge" />
+        <title>Contratos</title>
+    </head>
+    <body>
+        <div class="container-fluid mt-3">
+            <table
+                class="table table-bordered table-striped"
+                id="tablaContratos">
+                <thead>
+                    <tr class="table-primary">
+                        <th>ID</th>
+                        <th>Referencia</th>
+                        <th>Fecha de Compra</th>
+                        <th>Notas</th>
+                        <th>Periodo de Garantía</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="contrato : ${contratos}">
+                        <td th:text="${contrato.id}"></td>
+                        <td th:text="${contrato.referencia}"></td>
+                        <td th:text="${contrato.fechaCompra}"></td>
+                        <td>
+                            <span
+                                th:if="${#strings.length(contrato.notas) > 64}"
+                                th:text="${contrato.notas.substring(0, 64)} + '...'"></span>
+                            <span
+                                th:text="${contrato.notas}"
+                                th:unless="${#strings.length(contrato.notas) > 64}"></span>
+                            <button
+                                class="btn btn-link p-0"
+                                data-bs-toggle="modal"
+                                th:data-bs-target="'#notasModal' + ${contrato.id}"
+                                th:if="${#strings.length(contrato.notas) > 64}">
+                                <div class="btn btn-info">
+                                    <i class="text-white my-auto mx-auto bi bi-eye"></i>
+                                </div>
+                            </button>
+                            <div
+                                class="modal fade"
+                                aria-hidden="true"
+                                aria-labelledby="notasModalLabel"
+                                tabindex="-1"
+                                th:id="'notasModal' + ${contrato.id}">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5
+                                                class="modal-title"
+                                                id="notasModalLabel">
+                                                Notas Completas
+                                            </h5>
+                                            <button
+                                                aria-label="Close"
+                                                class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                type="button"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p th:text="${contrato.notas}"></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button
+                                                data-bs-dismiss="modal"
+                                                class="btn btn-secondary"
+                                                type="button">
+                                                Cerrar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td th:text="${contrato.periodoGarantia}"></td>
+                        <td>
+                            <div
+                                class="btn-group"
+                                role="group"
+                                aria-label="Button group with nested dropdown">
+                                <button
+                                    class="btn btn-primary"
+                                    data-bs-toggle="modal"
+                                    th:data-bs-target="'#editContratoModal' + ${contrato.id}">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                                <div
+                                    class="modal fade"
+                                    aria-labelledby="editContratoModalLabel"
+                                    tabindex="-1"
+                                    th:id="'editContratoModal' + ${contrato.id}"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1
+                                                    class="modal-title fs-5"
+                                                    th:id="'editContratoModalLabel' + ${contrato.id}">
+                                                    Editar Contrato
+                                                </h1>
+                                                <button
+                                                    type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form
+                                                    hx-swap="innerHTML transition:true"
+                                                    method="post"
+                                                    th:attr="hx-post=@{/panel/aplicativo/explorar/editarContratoById}, hx-target='#actualizarContratoByIdResponse' + ${contrato.id}">
+                                                    <input th:replace="~{fragments/csrf}" />
+                                                    <input
+                                                        type="hidden"
+                                                        th:name="id"
+                                                        th:value="${contrato.id}" />
+                                                    <div class="form-group">
+                                                        <label for="referencia">Referencia</label>
+                                                        <input
+                                                            class="form-control"
+                                                            id="referencia"
+                                                            name="referencia"
+                                                            type="text"
+                                                            th:value="${contrato.referencia}"
+                                                            required />
+                                                    </div>
+                                                    <div class="form-group my-2">
+                                                        <label for="fechaCompra">Fecha de Compra</label>
+                                                        <input
+                                                            class="form-control"
+                                                            id="fechaCompra"
+                                                            name="fechaCompra"
+                                                            type="datetime-local"
+                                                            th:value="${contrato.fechaCompra}"
+                                                            required />
+                                                    </div>
+                                                    <div class="form-group my-2">
+                                                        <label for="notas">Notas</label>
+                                                        <textarea
+                                                            class="form-control"
+                                                            id="notas"
+                                                            name="notas"
+                                                            cols="80"
+                                                            th:text="${contrato.notas}"
+                                                            required></textarea>
+                                                    </div>
+                                                    <div class="form-group my-2">
+                                                        <label for="periodoGarantia">Periodo de Garantía</label>
+                                                        <input
+                                                            class="form-control"
+                                                            id="periodoGarantia"
+                                                            name="periodoGarantia"
+                                                            type="text"
+                                                            th:value="${contrato.periodoGarantia}"
+                                                            required />
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">
+                                                            Cerrar
+                                                        </button>
+                                                        <button
+                                                            type="submit"
+                                                            class="btn btn-primary">
+                                                            Guardar Cambios
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                                <div th:id="'actualizarContratoByIdResponse' + ${contrato.id}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button
+                                    class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    th:data-bs-target="'#eliminarContratoModal' + ${contrato.id}">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                                <div
+                                    class="modal fade"
+                                    aria-hidden="true"
+                                    aria-labelledby="eliminarContratoModalLabel"
+                                    tabindex="-1"
+                                    th:id="'eliminarContratoModal' + ${contrato.id}">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1
+                                                    class="modal-title fs-5"
+                                                    th:id="'eliminarContratoModalLabel' + ${contrato.id}">
+                                                    Eliminar Contrato
+                                                </h1>
+                                                <button
+                                                    aria-label="Close"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    th:attr="hx-get=@{/panel/aplicativo/explorar/queryContratos}, hx-target='#tablaContratos'"
+                                                    type="button"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>
+                                                    ¿Estás seguro de que deseas eliminar el contrato
+                                                    <span th:text="${contrato.referencia}"></span>?
+                                                </p>
+                                                <p class="text-danger">
+                                                    ¡Esta acción no se puede deshacer y solo se puede realizar si el contrato no tiene
+                                                    ordenadores asociados!
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="btn-group">
+                                                    <button
+                                                        th:attr="hx-get=@{/panel/aplicativo/explorar/queryContratos}, hx-target='#tablaContratos'"
+                                                        class="btn btn-secondary"
+                                                        data-bs-dismiss="modal"
+                                                        type="button">
+                                                        Cancelar
+                                                    </button>
+                                                    <form
+                                                        hx-trigger="click"
+                                                        hx-swap="outerHTML transition:true"
+                                                        th:attr="hx-post=@{/panel/aplicativo/explorar/eliminarContratoById}, hx-target='#statusEliminacionContrato' + ${contrato.id}, data-bs-target='#forzarEliminarContratoModal' + ${contrato.id}">
+                                                        <input
+                                                            th:value="${_csrf.token}"
+                                                            name="_csrf"
+                                                            type="hidden" />
+                                                        <input
+                                                            th:value="${contrato.id}"
+                                                            name="id"
+                                                            type="hidden" />
+                                                        <button
+                                                            class="btn btn-danger"
+                                                            type="button">
+                                                            <span class="bi bi-trash-fill"></span>
+                                                            <span>Eliminación segura</span>
+                                                        </button>
+                                                    </form>
+                                                    <form
+                                                        hx-trigger="click"
+                                                        hx-swap="outerHTML transition:true"
+                                                        th:attr="hx-post=@{/panel/aplicativo/explorar/forzarEliminarContratoById}, hx-target='#statusEliminacionContrato' + ${contrato.id}, data-bs-target='#forzarEliminarContratoModal' + ${contrato.id}">
+                                                        <input
+                                                            th:value="${_csrf.token}"
+                                                            name="_csrf"
+                                                            type="hidden" />
+                                                        <input
+                                                            th:value="${contrato.id}"
+                                                            name="id"
+                                                            type="hidden" />
+                                                        <button
+                                                            class="btn btn-outline-danger"
+                                                            type="button">
+                                                            <i class="bi bi-exclamation-circle-fill"></i>
+                                                            <span>FORZAR Eliminación</span>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                                <div th:id="'statusEliminacionContrato' + ${contrato.id}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

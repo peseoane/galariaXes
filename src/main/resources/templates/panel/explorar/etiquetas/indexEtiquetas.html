@@ -1,0 +1,137 @@
+<!doctype html>
+<html
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Etiquetas</title>
+    </head>
+    <body>
+        <div class="container-fluid input-group mt-3 justify-content-center mx-auto my-auto mb-2">
+            <div class="form-group d-flex">
+                <input
+                    class="form-control"
+                    id="busquedaTablas"
+                    name="busqueda"
+                    placeholder="Búsqueda global"
+                    type="text" />
+
+                <div class="input-group-append">
+                    <button
+                        class="btn btn-success"
+                        type="submit">
+                        <i class="text-white bi bi-search my-auto"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div class="card">
+                <div class="card-header">Orden</div>
+                <div class="card-body">Las etiquetas están en orden alfabético descendente.</div>
+                <div class="card-body bg-warning-subtle fw-bold">Solo se podrán borrar etiquetas sin equipo asociado.</div>
+            </div>
+            <div class="card mx-2">
+                <div class="card-header">Gestión</div>
+                <div class="card-body">
+                    <div
+                        class="btn btn-primary"
+                        th:attr="hx-post=@{/panel/aplicativo/explorar/crearEtiqueta}"
+                        hx-swap="innerHTML transition:true"
+                        hx-target="#creacionActual">
+                        <i class="bi bi-motherboard"></i>
+                        <span>Crear etiqueta</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="m-2 d-flex font-monospace">
+            <div
+                class="col card"
+                th:each="tipoElemento : ${tiposElemento}">
+                <div
+                    class="card-header"
+                    th:text="${tipoElemento.tipo}"></div>
+                <div
+                    class="list-group"
+                    role="tablist"
+                    th:id="'tag-' + ${tipoElemento.tipo}">
+                    <div
+                        class="list-group-item list-group-item-action"
+                        th:each="ordenador : ${ordenadores}"
+                        th:if="${ordenador.tipoElemento.id == tipoElemento.id}"
+                        th:id="'tag-' + ${ordenador.etiqueta.id}">
+                        <div class="btn-group">
+                            <form
+                                class="btn btn-danger"
+                                hx-trigger="click"
+                                hx-post="/panel/aplicativo/explorar/eliminarEtiquetaById"
+                                th:attr="hx-post=@{/panel/aplicativo/explorar/eliminarEtiquetaById},
+                                hx-target='#' + 'tag-' + ${ordenador.etiqueta.id}"
+                                hx-swap="innerHTML transition:true">
+                                <i class="bi bi-trash"></i>
+                                <input
+                                    name="id"
+                                    type="hidden"
+                                    th:value="${ordenador.etiqueta.id}" />
+                                <input th:replace="~{fragments/csrf}" />
+                            </form>
+                        </div>
+
+                        <span th:text="${ordenador.etiqueta?.referencia}"></span>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="col card"
+                th:if="${not #lists.isEmpty(monitores)}">
+                <div class="card-header">Monitores</div>
+                <div
+                    class="list-group"
+                    id="list-monitor"
+                    role="tablist">
+                    <div
+                        class="list-group-item list-group-item-action"
+                        th:each="monitor : ${monitores}"
+                        th:if="${monitor.etiqueta?.referencia != null}"
+                        th:id="'tag-' + ${monitor.etiqueta.id}">
+                        <div class="btn-group">
+                            <form
+                                class="btn btn-danger"
+                                hx-trigger="click"
+                                th:attr="hx-post=@{/panel/aplicativo/explorar/eliminarEtiquetaById},
+                                hx-target='#' + 'tag-' + ${monitor.etiqueta.id}"
+                                hx-swap="innerHTML transition:true">
+                                <i class="bi bi-trash"></i>
+                                <input th:replace="~{fragments/csrf}" />
+                                <input
+                                    name="id"
+                                    type="hidden"
+                                    th:value="${monitor?.etiqueta?.id}" />
+                            </form>
+                        </div>
+                        <span th:text="${monitor.etiqueta.referencia}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById("busquedaTablas").addEventListener("input", function (e) {
+                busqueda = e.target.value.toLowerCase();
+                etiquetas = document.querySelectorAll(".list-group-item");
+
+                etiquetas.forEach(function (etiqueta) {
+                    var texto = etiqueta.textContent.toLowerCase();
+                    if (texto.includes(busqueda)) {
+                        etiqueta.classList.add("bg-info", "text-white", "fw-bold");
+                    } else {
+                        etiqueta.classList.remove("bg-info", "text-white", "fw-bold");
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

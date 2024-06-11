@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+            name="viewport" />
+        <meta
+            content="ie=edge"
+            http-equiv="X-UA-Compatible" />
+        <title>Asociar contratos</title>
+    </head>
+    <body>
+        <div id="respuestaActualizaicion"></div>
+        <!-- Contenedor principal de las filas -->
+        <div class="row my-4">
+            <!-- Columna para Ordenadores -->
+            <div class="col-6 mb-4">
+                <!-- Formulario para asociar contratos a ordenadores -->
+                <form
+                    th:attr="hx-post=@{/panel/aplicativo/explorar/asociarContratosOrdenadores}"
+                    hx-swap="innerHTML transition:true"
+                    hx-target="#respuestaActualizaicion"
+                    hx-trigger="submit"
+                    id="formOrdenadores"
+                    method="post">
+                    <!-- Input para protección CSRF -->
+                    <input th:replace="~{fragments/csrf}" />
+                    <!-- Encabezado de la sección -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h3>Ordenadores</h3>
+                        <!-- Botones de acción -->
+                        <div
+                            aria-label="Botones de acción"
+                            class="btn-group"
+                            role="group">
+                            <button
+                                class="btn btn-success"
+                                type="submit">
+                                <i class="bi bi-save"></i> Guardar
+                            </button>
+                            <button
+                                class="btn btn-secondary"
+                                type="reset">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Tabla para mostrar los ordenadores -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Ordenador</th>
+                                <th>Contrato</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Iteración sobre los ordenadores -->
+                            <tr th:each="ordenador : ${ordenadores}">
+                                <td
+                                    th:text="${ordenador.etiqueta.referencia}"
+                                    th:title="'Modelo: ' + ${ordenador.modeloOrdenador.referencia}"></td>
+                                <td>
+                                    <!-- Selector para elegir contrato -->
+                                    <select
+                                        class="form-select"
+                                        th:name="'ordenadorContratos[' + ${ordenador.id} + '].contratoId'">
+                                        <option value="">NULL</option>
+                                        <!-- Iteración sobre los contratos -->
+                                        <option
+                                            th:each="contrato : ${contratos}"
+                                            th:selected="${ordenador.contrato?.id eq contrato.id}"
+                                            th:text="${contrato.referencia}"
+                                            th:value="${contrato.id}"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+
+            <!-- Columna para Monitores -->
+            <div class="col-6 mb-4">
+                <!-- Formulario para asociar contratos a monitores -->
+                <form
+                    th:attr="hx-post=@{/panel/aplicativo/explorar/asociarContratosMonitores}"
+                    hx-swap="innerHTML transition:true"
+                    hx-target="#respuestaActualizaicion"
+                    hx-trigger="submit"
+                    id="formMonitores"
+                    method="post">
+                    <!-- Input para protección CSRF -->
+                    <input th:replace="~{fragments/csrf}" />
+                    <!-- Encabezado de la sección -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h3>Monitores</h3>
+                        <!-- Botones de acción -->
+                        <div
+                            aria-label="Botones de acción"
+                            class="btn-group"
+                            role="group">
+                            <button
+                                class="btn btn-success"
+                                type="submit">
+                                <i class="bi bi-save"></i> Guardar
+                            </button>
+                            <button
+                                class="btn btn-secondary"
+                                type="reset">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Tabla para mostrar los monitores -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Monitor</th>
+                                <th>Contrato</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Iteración sobre los monitores -->
+                            <tr th:each="monitor : ${monitores}">
+                                <td
+                                    th:text="${monitor?.etiqueta?.referencia}"
+                                    title="Modelo: ${monitor.modeloPc.referencia}"></td>
+                                <td>
+                                    <!-- Selector para elegir contrato -->
+                                    <select
+                                        class="form-select"
+                                        th:name="'monitorContratos[' + ${monitor.id} + '].contratoId'">
+                                        <option value="">NULL</option>
+                                        <!-- Iteración sobre los contratos -->
+                                        <option
+                                            th:each="contrato : ${contratos}"
+                                            th:selected="${monitor.contrato?.id eq contrato.id}"
+                                            th:text="${contrato.referencia}"
+                                            th:value="${contrato.id}"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

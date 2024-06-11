@@ -1,0 +1,18 @@
+<!doctype html>
+<html
+    lang="es"
+    xmlns="http://www.w3.org/1999/html">
+    <head>
+        <title>Grupos</title>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+    <!-- Sección de Grupos -->
+        <div
+            th:attr="hx-get=@{/panel/aplicativo/explorar/grupos/servicios}"
+            hx-swap="outerHTML transition:true"
+            hx-target="this"
+            hx-trigger="onload, load"></div>
+    <!-- Pendiente de implementar resto de filtrados -->
+    </body>
+</html>

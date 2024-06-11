@@ -1,0 +1,17 @@
+{
+    "theme_color": "#00365DFF",
+    "background_color": "#00365DFF",
+    "icons": [
+        { "purpose": "maskable", "sizes": "512x512", "src": "icono.svg", "type": "image/svg+xml" },
+        { "purpose": "any", "sizes": "512x512", "src": "icono.png", "type": "image/png" }
+    ],
+    "orientation": "portrait",
+    "display": "minimal-ui",
+    "dir": "auto",
+    "lang": "es",
+    "name": "GalariaXes - Aplicativo de inventario",
+    "short_name": "GalariaXes",
+    "start_url": "https://SERVIDOR:9000",
+    "scope": "https://SERVIDOR:9000",
+    "description": "GalariaXes"
+}

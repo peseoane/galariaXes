@@ -1,0 +1,53 @@
+<!-- src/main/resources/templates/fragments/button.html -->
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org">
+<body>
+<div th:fragment = "buttonAccent (id, title, type)">
+    <button class="px-4 py-2 text-sm text-white font-bold bg-xuntaAccent"
+            th:id="${id}"
+            th:text="${title}"
+            th:type="${type}">
+    </button>
+</div>
+
+<div th:fragment = "buttonPrimary (id, title, type)">
+    <button class="px-4 py-2 text-sm text-white font-bold bg-xunta"
+            th:id="${id}"
+            th:text="${title}"
+            th:type="${type}">
+    </button>
+</div>
+
+<div th:fragment = "buttonSecondary (id, title, type)">
+    <button class="px-4 py-2 text-sm text-white font-bold bg-xuntaSecondary"
+            th:id="${id}"
+            th:text="${title}"
+            th:type="${type}">
+    </button>
+</div>
+
+<div th:fragment = "buttonAccentOutline (id, title, type)">
+    <button class="px-4 py-2 text-sm text-xuntaAccent font-bold border-2 border-xuntaAccent"
+            th:id="${id}"
+            th:text="${title}"
+            th:type="${type}">
+    </button>
+</div>
+
+<div th:fragment = "buttonPrimaryOutline (id, title, type)">
+    <button class="px-4 py-2 text-sm text-xunta font-bold border-2 border-xunta"
+            th:id="${id}"
+            th:text="${title}"
+            th:type="${type}">
+    </button>
+</div>
+
+<div th:fragment = "buttonSecondaryOutline (id, title, type)">
+    <button class="px-4 py-2 rounded-md text-xuntasecondary font-bold border-2 border-xuntasecondary"
+            th:id="${id}"
+            th:text="${title}"
+            th:type="${type}">
+    </button>
+</div>
+</body>
+</html>

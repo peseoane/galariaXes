@@ -1,0 +1,88 @@
+<!doctype html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/header}"></head>
+    <body>
+        <div
+            class="container"
+            id="seleccionarAplicativo">
+            <div class="row" >
+                <div class="card-group " >
+                    <div class="card m-2 ">
+                        <img
+                            alt="..."
+                            class="card-img-top object-fit-cover"
+                            style="height: 16em;"
+                            th:src="@{/img/nuclear.jpg}" />
+                        <div class="d-flex btn-group">
+                            <div class="card-header mb-0">Incidencias MN</div>
+                            <a
+                                class="btn btn-primary"
+                                href="http://SERVIDOR:8080/incidencias_mn/"
+                                target="_blank"
+                                >Ir</a
+                            >
+                        </div>
+                    </div>
+                    <div class="card m-2">
+                        <img
+                            alt="..."
+                            class="card-img-top object-fit-cover"
+                            style="height: 16em;"
+                            th:src="@{/img/radioterapia.jpg}" />
+                        <div class="d-flex btn-group">
+                            <div class="card-header mb-0">Incidencias RT</div>
+                            <a
+                                class="btn btn-primary"
+                                href="http://SERVIDOR:8080/incidencias_jpa/"
+                                target="_blank"
+                                >Ir</a
+                            >
+                        </div>
+                    </div>
+                    <div class="card m-2">
+                        <img
+                            alt="..."
+                            class="card-img-top object-fit-cover"
+                            style="height: 16em;"
+                            th:src="@{/img/di.webp}" />
+                        <div class="d-flex btn-group">
+                            <div class="card-header mb-0">Informes DI</div>
+                            <a
+                                class="btn btn-primary"
+                                href="http://SERVIDOR/InformesDI/"
+                                target="_blank"
+                                >Ir</a
+                            >
+                        </div>
+                    </div>
+                    <div
+                        class="card m-2"
+                        height="4rem"
+
+                        th:if="${departamento == 'GRUPO_ADMIN'}">
+                        <img
+                                alt="..."
+                                class="card-img-top object-fit-cover"
+                            style="height: 16em;"
+                            th:src="@{/img/inventario.webp}" />
+                        <div class="d-flex btn-group">
+                            <div class="card-header mb-0">Inventario</div>
+                            <a
+                                class="btn btn-primary"
+                                th:href="@{/panel}"
+                                >Ir</a
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="text-center"
+                    th:if="${departamento == 'NO_AUTORIZADO'}">
+                    <h1>No tienes permisos para acceder a esta página</h1>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

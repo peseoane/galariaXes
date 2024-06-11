@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div
+            class="accordion"
+            id="accordionGruposCelso">
+            <div
+                class="accordion-item"
+                th:each="servicio, iterStatus : ${servicios}"
+                th:id="'servicio' + ${servicio.id}"
+                th:if="${#lists.size(servicio.getTrazasAsociadas()) > 1}">
+                <h2
+                    class="accordion-header"
+                    th:id="'heading' + ${iterStatus.index}">
+                    <button
+                        aria-expanded="false"
+                        class="accordion-button collapsed"
+                        data-bs-toggle="collapse"
+                        th:aria-controls="'collapse' + ${iterStatus.index}"
+                        th:data-bs-target="'#collapse' + ${iterStatus.index}"
+                        type="button">
+                        <div class="d-flex align-middle justify-content-between">
+                            <div
+                                class="btn btn-primary my-auto"
+                                th:onclick="'imprimir(\'servicio' + ${servicio.id} + '\')'">
+                                <i class="bi bi-printer"></i>
+                            </div>
+                            <div
+                                class="btn bg-info"
+                                th:text="${#lists.size(servicio.getTrazasAsociadas())}"></div>
+
+                            <div
+                                class="my-auto mx-3"
+                                th:text="${servicio.servicio}"></div>
+                        </div>
+                    </button>
+                </h2>
+                <div
+                    class="accordion-collapse collapse"
+                    th:aria-labelledby="'heading' + ${iterStatus.index}"
+                    th:id="'collapse' + ${iterStatus.index}">
+                    <div class="accordion-body">
+                        <h5 class="my-3">Ordenadores</h5>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="table-primary">
+                                    <th>Localización</th>
+                                    <th>Etiqueta Referencia</th>
+                                    <th>Modelo PC Referencia</th>
+                                    <th>Activo</th>
+                                    <th>Retirada</th>
+                                    <th>Fecha baja</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="traza : ${servicio.getTrazasAsociadas()}">
+                                <tr th:if="${traza.getEtiqueta().getOrdenadorAsociado()}">
+                                    <td th:text="${traza?.localizacion.localizacion}"></td>
+                                    <td th:text="${traza?.getEtiqueta()?.getOrdenadorAsociado()?.etiqueta?.referencia}"></td>
+                                    <td th:text="${traza?.getEtiqueta()?.getOrdenadorAsociado()?.getModeloOrdenador?.referencia}"></td>
+                                    <td>
+                                        <button
+                                            class="btn btn-success"
+                                            th:if="${traza?.getEtiqueta()?.getOrdenadorAsociado()?.activo}">
+                                            <i class="bi bi-check-circle"></i>
+                                        </button>
+                                        <button
+                                            class="btn btn-danger"
+                                            th:unless="${traza?.getEtiqueta()?.getOrdenadorAsociado()?.activo}">
+                                            <i class="bi bi-ban"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button
+                                            class="btn btn-success"
+                                            th:if="${traza?.getEtiqueta()?.getOrdenadorAsociado()?.propuestoRetirada}">
+                                            <i class="bi bi-check-circle"></i>
+                                        </button>
+                                        <button
+                                            class="btn btn-danger"
+                                            th:unless="${traza?.getEtiqueta()?.getOrdenadorAsociado()?.propuestoRetirada}">
+                                            <i class="bi bi-ban"></i>
+                                        </button>
+                                    </td>
+                                    <td
+                                        th:text="${#temporals.format(traza?.getEtiqueta()?.getOrdenadorAsociado()?.fechaBaja, 'dd-MM-yyyy')}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h5 class="my-3">Monitores</h5>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="table-primary">
+                                    <th>Localización</th>
+                                    <th>Etiqueta Referencia</th>
+                                    <th>Modelo Monitor Referencia</th>
+                                    <th>Activo</th>
+                                    <th>Propuesto retirada</th>
+                                    <th>Fecha baja</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="trazaMonitor : ${servicio.getTrazasAsociadas()}">
+                                <tr th:if="${trazaMonitor.getEtiqueta().getMonitorAsociado()}">
+                                    <td th:text="${trazaMonitor.localizacion.localizacion}"></td>
+                                    <td th:text="${trazaMonitor.getEtiqueta()?.getMonitorAsociado().etiqueta.referencia}"></td>
+                                    <td th:text="${trazaMonitor.getEtiqueta()?.getMonitorAsociado().modeloMonitor.referencia}"></td>
+                                    <td th:text="${trazaMonitor.getEtiqueta()?.getMonitorAsociado().activo}"></td>
+                                    <td th:text="${trazaMonitor.getEtiqueta()?.getMonitorAsociado().propuestoRetirada}"></td>
+                                    <td
+                                        th:text="${#temporals.format(trazaMonitor.getEtiqueta()?.getMonitorAsociado().fechaBaja, 'dd-MM-yyyy')}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

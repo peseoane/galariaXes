@@ -1,0 +1,30 @@
+<div class="d-flex justify-content-center align-items-center my-2" th:fragment="completo">
+    <button class="btn btn-link px-0 text-decoration-none d-flex align-items-center"
+            data-bs-theme-value="light"
+            id="light-theme"
+            type="button">
+        <i class="bi bi-sun "></i>
+        <span class="mx-2">Modo Claro</span>
+    </button>
+    <button class="btn btn-link px-4 text-decoration-none d-flex
+    justify-content-center align-items-center"
+            data-bs-theme-value="dark"
+            id="dark-theme"
+            type="button">
+        <i class="bi bi-moon"></i>
+        <span class="mx-2">Modo Oscuro</span>
+    </button>
+</div>
+
+<div class="d-flex align-items-center mx-3" th:fragment="slim">
+    <i class="bi bi-sun" data-bs-theme-value="light"></i>
+    <div class="form-check form-switch mx-2">
+        <input class="form-check-input" id="theme-switch" role="switch" type="checkbox"/>
+    </div>
+    <i class="bi bi-moon" data-bs-theme-value="dark"></i>
+    <style>
+        #theme-switch {
+            border: 1px solid white;
+        }
+    </style>
+</div>

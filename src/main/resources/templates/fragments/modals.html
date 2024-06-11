@@ -1,0 +1,40 @@
+<section class="w-75 m-4" th:fragment = "infoer">
+    <div class = "card  shadow">
+        <div class = "card-body">
+            <h5 class = "card-title">Información</h5>
+            <h6 class = "card-subtitle mb-2 text-body-secondary">Creación de entidades</h6>
+            <p class = "card-text">
+                A orde para crear unha entidade (ordenador) é a seguinte:
+            </p>
+            <ul>
+                <li>Definir o procesador (opcional)</li>
+                <li>Definir a gpu (opcional)</li>
+                <li>Definir o modelo do pc (polo menos o fabricante e modelo son obrigatórios)</li>
+                <li>Agora, podes crear o ordenador e asignarlle o modelo</li>
+            </ul>
+            <p class = "card-text">
+                Isto é así dado que, para crear un ordenador, é preciso que exista un modelo asociado a el
+                na base de datos.
+            </p>
+            <a class = "card-link" data-bs-target = "#ERDiagramModal" data-bs-toggle = "modal" href = "#">Consultar diagrama E/R</a>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div aria-hidden = "true" aria-labelledby = "ERDiagramModalLabel" class = "modal fade" id = "ERDiagramModal" tabindex = "-1">
+        <div class = "modal-dialog modal-dialog-centered modal-fullscreen">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h5 class = "modal-title" id = "ERDiagramModalLabel">Diagrama E/R</h5>
+                    <button aria-label = "Close" class = "btn-close" data-bs-dismiss = "modal" type = "button"></button>
+                </div>
+                <div class = "modal-body">
+                    <img alt = "Diagrama E/R" class = "img-fluid" th:src = "@{/svg/ER.svg}">
+                </div>
+                <div class = "modal-footer">
+                    <button class = "btn btn-secondary" data-bs-dismiss = "modal" type = "button">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

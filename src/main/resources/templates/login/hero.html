@@ -1,0 +1,28 @@
+<div th:fragment="hero">
+    <img
+        alt="galeria"
+        class="h-auto w-50 w-xl-2/3 mb-5"
+        id="temaClaro"
+        th:src="@{/svg/galariaPositivo.svg}" />
+    <button th:replace="~{fragments/toggleThemeDropdown :: completo}"></button>
+
+    <div
+        class="d-flex flex-column text-primary"
+        id="grupoHeroTitulo">
+        <h1
+            class="fw-normal h1 m-0 p-0"
+            id="etiquetaTitulo">
+            GalariaXes
+        </h1>
+        <div
+            class="d-flex align-items-center"
+            id="etiquetaVersionDescripcion">
+            <span class="d-inline-flex align-items-center bg-primary px-2 py-1 text-xs fw-medium text-white border border-primary"
+                >V1 .0</span
+            >
+            <span class="d-inline-flex align-items-center px-2 py-1 text-xs fw-medium border border-primary"
+                >Aplicativo para xestionar inventario e persoal.</span
+            >
+        </div>
+    </div>
+</div>

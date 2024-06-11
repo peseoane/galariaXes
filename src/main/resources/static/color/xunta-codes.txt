@@ -1,0 +1,11 @@
+Your selected colors:
+
+    Text: #002d4d - rgb(0, 45, 77) - hsl(205, 100%, 15%)
+    Background: #fbfbfe - rgb(251, 251, 254) - hsl(240, 60%, 99%)
+    Primary: #007bc2 - rgb(0, 123, 194) - hsl(202, 100%, 38%)
+    Secondary: #79b3e2 - rgb(121, 179, 226) - hsl(207, 64%, 68%)
+    Accent: #002d4d - rgb(0, 45, 77) - hsl(205, 100%, 15%)
+
+Realtime Colors link for selected colors: https://www.realtimecolors.com/?colors=052b4a-fbfbfe-0083ca-052B4A-f8690d&fonts=Xunta%20Sans-Xunta%20Sans
+
+Thanks for using RealtimeColors.com!

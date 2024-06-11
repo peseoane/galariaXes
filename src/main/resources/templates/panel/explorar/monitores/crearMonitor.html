@@ -1,0 +1,128 @@
+<!doctype html>
+<html
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Crear Monitor</title>
+    </head>
+    <body>
+        <div class="card">
+            <div class="card-header align-middle d-flex">
+                <h5 class="mx-2 my-auto">Crear Monitor</h5>
+            </div>
+            <form
+                class="card-body"
+                hx-trigger="submit"
+                method="post"
+                th:action="@{/crearMonitor}"
+                th:id="'crearMonitorForm'"
+                th:object="${monitor}">
+                <div class="col">
+                    <!-- Etiqueta -->
+                    <div class="form-group">
+                        <label for="etiqueta">Etiqueta</label>
+                        <input
+                            class="form-control"
+                            id="etiqueta"
+                            th:field="*{etiqueta.referencia}"
+                            type="text" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ordenador">Etiqueta PC</label>
+                        <select
+                            class="form-control"
+                            id="ordenador"
+                            th:field="*{ordenador}">
+                            <option value="">NULL</option>
+                            <option
+                                th:each="etiquetaPc : ${etiquetasAsoc}"
+                                th:text="${etiquetaPc.referencia}"
+                                th:value="${etiquetaPc.ordenadorAsociado.id}"></option>
+                        </select>
+                    </div>
+
+                    <!-- Número de Serie -->
+                    <div class="form-group">
+                        <label for="numeroSerie">Número de Serie</label>
+                        <input
+                            class="form-control"
+                            id="numeroSerie"
+                            th:field="*{numeroSerie}"
+                            type="text" />
+                    </div>
+                </div>
+
+                <div class="col">
+                    <!-- Modelo Monitor -->
+                    <div class="form-group">
+                        <label for="modeloMonitor">Modelo Monitor</label>
+                        <select
+                            class="form-control"
+                            id="modeloMonitor"
+                            th:field="*{modeloMonitor.id}">
+                            <option
+                                th:each="modelo : ${modelosMonitor}"
+                                th:text="${modelo.referencia}"
+                                th:value="${modelo.id}"></option>
+                        </select>
+                    </div>
+
+                    <!-- Garantía -->
+                    <div class="form-group">
+                        <label for="garantia">Garantía</label>
+                        <input
+                            class="form-control"
+                            id="garantia"
+                            name="garantia"
+                            type="datetime-local" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="propuestaRetirada">Propuesto retirada</label>
+                        <input
+                            class="form-check-input"
+                            id="propuestaRetirada"
+                            th:field="*{propuestoRetirada}"
+                            type="checkbox" />
+                    </div>
+
+                    <!-- Activo -->
+                    <div class="form-group">
+                        <label for="activo">Activo</label>
+                        <input
+                            class="form-check-input"
+                            id="activo"
+                            th:field="*{activo}"
+                            type="checkbox" />
+                    </div>
+                    <button
+                        class="my-auto btn btn-success"
+                        type="submit">
+                        <span class="bi bi-floppy"></span>
+                        Guardar
+                    </button>
+                    <button
+                        class="my-auto btn btn-danger"
+                        type="reset">
+                        <span class="bi bi-x-circle"></span>
+                        Limpiar
+                    </button>
+                    <button
+                        class="my-auto btn btn-primary"
+                        id="cancelar"
+                        type="button">
+                        <span class="bi bi-arrow-counterclockwise"></span>
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+        <script>
+            document.getElementById("cancelar").addEventListener("click", function () {
+                document.getElementById("creacionActual").innerHTML = "";
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,7 @@
+<button class="btn btn-success"
+        th:attr="hx-post=@{/panel/aplicativo/explorar/pingOrdenadorPorId}"
+        hx-swap="outerHTML transition:true"
+        hx-target="this"
+        th:id="'ordenadorPing' + ${id}">
+    <i class="bi bi-pci-card-network"></i>
+</button>

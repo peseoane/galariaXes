@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <nav class="fixed-top navbar navbar-expand-lg w-100" th:fragment="principal">
+        <div class="container-fluid">
+            <img alt="galaria" class="img-fluid align-self-center navbar-brand nocambiar"
+                th:src="@{/svg/galariaNegativo.svg}" width="128" />
+            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item" th:each="link, iterStat : ${links}">
+                        <a hx-indicator="#loadingIconNavbar" hx-swap="innerHTML transition:true"
+                            hx-target="#vistaActual" hx-trigger="click" th:attr="
+                                hx-get=@{${link.hrefAplicativo}}, hx-trigger='click',
+                                hx-push-url=@{${link.hrefVista}}"
+                            th:class="${iterStat.first} ? 'nav-link active' : 'nav-link'" th:text="${link.humanName}">
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="d-flex cargando" id="loadingIconNavbar">
+                    <span class="text-white small p-2">Cargando</span>
+                    <img class="" th:src=" @{/svg/infinito.svg}" width="32" />
+                </div>
+
+                <div th:replace="~{fragments/toggleThemeDropdown :: slim}"></div>
+
+                <form hx-swap="outerHTML transition:true" hx-target="body" hx-trigger="click" hx-redirect="follow">
+                    <input th:replace="~{fragments/csrf}" />
+                    <button class="btn btn-outline-light"
+                            th:attr="hx-post=@{/logout}" type="button">
+                        <span class="bi bi-box-arrow-left"></span>
+                        <span>Logout</span>
+                    </button>
+                </form>
+
+
+                <div class="d-flex justify-content-center align-items-center text-white">
+                    <div id="currentUser" class="mx-4">
+                        <i class="bi bi-person-circle mx-1"></i>
+                        <span th:text="${currentUser.getName()}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</body>
+
+</html>

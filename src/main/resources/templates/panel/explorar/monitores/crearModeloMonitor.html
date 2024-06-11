@@ -1,0 +1,80 @@
+<!doctype html>
+<html
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Crear Modelo Monitor</title>
+    </head>
+    <body>
+        <div class="card">
+            <div class="card-header align-middle d-flex">
+                <h5 class="mx-2 my-auto">Crear Modelo Monitor</h5>
+            </div>
+            <form
+                class="card-body"
+                th:attr="hx-post=@{/panel/aplicativo/explorar/crearModeloMonitor}"
+                hx-swap="innerHTML transition:true"
+                hx-target="this"
+                hx-trigger="submit"
+                th:id="'crearModeloMonitor'"
+                th:object="${modeloMonitor}">
+                <div class="col">
+                    <input th:replace="~{fragments/csrf}" />
+                    <input
+                        th:field="*{id}"
+                        type="hidden" />
+                    <!-- Referencia -->
+                    <div class="form-group">
+                        <label for="referencia">Referencia</label>
+                        <input
+                            class="form-control"
+                            id="referencia"
+                            th:field="*{referencia}"
+                            type="text" />
+                    </div>
+                    <!-- Fabricante -->
+                    <div class="form-group">
+                        <label for="fabricante">Fabricante</label>
+                        <select
+                            class="form-control"
+                            id="fabricante"
+                            th:field="*{fabricante.id}">
+                            <option
+                                th:each="fabricante : ${fabricantes}"
+                                th:text="${fabricante.referencia}"
+                                th:value="${fabricante.id}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <button
+                            class="my-auto btn btn-success"
+                            type="submit">
+                        <span class="bi bi-floppy"></span>
+                        Guardar
+                    </button>
+                    <button
+                            class="my-auto btn btn-danger"
+                            type="reset">
+                        <span class="bi bi-x-circle"></span>
+                        Limpiar
+                    </button>
+                    <button
+                            class="my-auto btn btn-primary"
+                            id="cancelar"
+                            type="button">
+                        <span class="bi bi-arrow-counterclockwise"></span>
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+        <script>
+            document.getElementById("cancelar").addEventListener("click", function () {
+                document.getElementById("creacionActual").innerHTML = "";
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        name="viewport" />
+    <meta
+        content="ie=edge"
+        http-equiv="X-UA-Compatible" />
+    <title>Exportar</title>
+</head>
+<body>
+        <ul
+            class="nav nav-tabs"
+            id="myTab"
+            role="tablist">
+            <li
+                class="nav-item"
+                role="presentation">
+                <button
+                    class="nav-link active"
+                    data-bs-target="#ordenadores"
+                    data-bs-toggle="tab"
+                    hx-target="#exportContent"
+                    id="ordenadores-tab"
+                    role="tab"
+                    th:attr="hx-get=${'/panel/aplicativo/explorar/exportarOrdenadores'}"
+                    hx-swap="innerHTML transition:true"
+                    hx-trigger="click, load"
+                    type="button">
+                    <span class="bi bi-laptop"></span>
+                    <span>Ordenadores</span>
+                </button>
+            </li>
+
+            <li
+                class="nav-item"
+                role="presentation">
+                <button
+                    class="nav-link"
+                    data-bs-target="#monitores"
+                    data-bs-toggle="tab"
+                    hx-target="#exportContent"
+                    id="monitores-tab"
+                    role="tab"
+                    th:attr="hx-get=${'/panel/aplicativo/explorar/exportarMonitores'}"
+                    hx-swap="innerHTML transition:true"
+                    hx-trigger="click"
+                    type="button">
+                    <span class="bi bi-display"></span>
+                    <span>Monitores</span>
+                </button>
+            </li>
+
+            <li
+                class="nav-item"
+                role="presentation">
+                <button
+                    class="nav-link"
+                    data-bs-target="#incidencias"
+                    data-bs-toggle="tab"
+                    hx-target="#exportContent"
+                    id="incidencias-tab"
+                    role="tab"
+                    th:attr="hx-get=${'/panel/aplicativo/explorar/exportarIncidencias'}"
+                    hx-swap="innerHTML transition:true"
+                    hx-trigger="click"
+                    type="button">
+                    <span class="bi bi-exclamation-triangle"></span>
+                    <span>Incidencias</span>
+                </button>
+            </li>
+        </ul>
+
+        <div
+            class="tab-content"
+            id="exportContent"></div>
+</body>
+</html>

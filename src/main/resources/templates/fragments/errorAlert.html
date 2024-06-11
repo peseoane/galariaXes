@@ -1,0 +1,34 @@
+<div
+    class="alert alert-danger alert-dismissible fade show"
+    role="alert">
+    <strong th:text="${msg}"></strong>
+    <button
+        aria-label="Close"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        onclick="clearCreacionActual()"
+        type="button"></button>
+</div>
+
+<!-- if loginError is added, show a button to reaload /login with htmx -->
+<div th:if="${loginError}"
+     hx-get="/login"
+     hx-trigger="click"
+     hx-select="#formularioLogin"
+     hx-swap="outerHTML transition:fade"
+     hx-target="#formularioLogin"
+>
+    <button
+        class="btn btn-primary"
+
+        type="button">
+        <i class="bi bi-arrow-clockwise"></i>
+        <span>Recargar</span>
+    </button>
+</div>
+
+<script>
+    function clearCreacionActual() {
+        document.getElementById("creacionActual").innerHTML = "";
+    }
+</script>

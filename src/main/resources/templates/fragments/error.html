@@ -1,0 +1,26 @@
+<div class="card text-white border-danger mb-3 w-100 shadow" id="errormsg">
+  <div class="card-header bg-danger">Erro!</div>
+  <div class="card-body">
+    <h5 class="card-title text-danger" th:text="${error_titulo}"></h5>
+    <p class="card-text text-danger" th:text="${error_mensaxe}"></p>
+    <p>
+      <a aria-controls="errorTrace" aria-expanded="false" class="btn btn-danger" data-bs-toggle="collapse" href="#errorTrace" role="button">
+        Traza completa
+      </a>
+    </p>
+    <div class="collapse" id="errorTrace">
+      <div class="card card-body text-danger text-small" th:text="${error_trace}">
+      </div>
+    </div>
+    <button class="btn border-danger text-danger mt-2" id="removeError"><i class="bi bi-exclamation"></i>  Agochar erro.</button>
+  </div>
+    <script>
+        document.getElementById('removeError').addEventListener('click', function() {
+            const errorMsg = document.getElementById('errormsg');
+            errorMsg.classList.add('fadeOut');
+            setTimeout(function() {
+                errorMsg.remove();
+            }, 0);
+        });
+    </script>
+</div>

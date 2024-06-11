@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es " xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de registros</title>
+</head>
+<body>
+    <div class="container-fluid mt-3">
+        <h2>Página de registros.</h2>
+        <table class="table table-striped table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th>Id</th>
+                    <th>Fecha</th>
+                    <th>Nivel</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+    
+                <tr th:each="registro : ${registrosTrimestre}">
+                    <td th:text="${registro.getId()}"></td>
+                    <td class="text-nowrap" th:text="${#temporals.format(registro.getFecha(), 'yy/MM/dd hh:mm')}"></td>
+                    <td th:text="${registro.getNivel().getNivel()}"></td>
+                    <td th:text="${registro.getDescripcion()}"></td>
+                </tr>
+    
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<head th:fragment="styles">
+    <meta charset = "UTF-8"/>
+    <meta content = "width=device-width, initial-scale=1" name = "viewport"/>
+    <link rel = "icon" th:href = "@{/pwa/iconoNegativo.svg}"/>
+    <title>galariaXes</title>
+    <link id="mainCss" rel = "stylesheet" th:href = "@{/css/galariaBootstrap.css}"/>
+    <script th:src = "@{/js/htmx.js}"></script>
+    <script th:src = "@{/js/htmx-ext-ws.js}"></script>
+    <script th:src = "@{/js/bootstrap.bundle.js}"></script>
+    <script th:src = "@{/js/custom/color-modes.js}"></script>
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <link rel="manifest" th:href="@{/pwa/manifest.json}">
+</head>

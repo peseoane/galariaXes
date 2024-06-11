@@ -1,0 +1,42 @@
+{
+  "name": "galariaXes",
+  "scripts": {
+    "copy:htmx": "shx cp node_modules/htmx.org/dist/htmx.js src/main/resources/static/js/ && shx cp node_modules/htmx.org/dist/htmx.min.js src/main/resources/static/js/ && shx cp node_modules/htmx-ext-ws/ws.js src/main/resources/static/js/htmx-ext-ws.js",
+    "copy:bootstrap": "shx cp node_modules/bootstrap/dist/js/bootstrap.bundle.js src/main/resources/static/js/ && shx cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js src/main/resources/static/js/",
+    "copy:all": "npm-run-all copy:htmx copy:bootstrap",
+    "update": "ncu -u && (bun install || npm install)",
+    "bootstrap:build": "sass src/main/resources/static/css/galariaBootstrap.scss:src/main/resources/static/css/galariaBootstrap.css",
+    "bootstrap:watch": "sass --watch src/main/resources/static/css/galariaBootstrap.scss:src/main/resources/static/css/galariaBootstrap.css",
+    "bootstrap:dev": "npm-run-all --serial bootstrap:build bootstrap:watch",
+    "bootstrap:prod": "npm-run-all --serial bootstrap:build && postcss src/main/resources/static/css/galariaBootstrap.css --use autoprefixer cssnano --output src/main/resources/static/css/galariaBootstrap.min.css",
+    "live-reload:copy": "onchange 'src/**/*' -- shx cp -r src/* target/classes",
+    "live-reload:watch": "browser-sync start --proxy localhost:8080 --files \"target/classes/templates\" \"target/classes/static\" && echo 'http://localhost:3000/' | clip",
+    "svg:prod": "svgo -f src/main/resources/static/svg/ -o target/classes/static/svg/",
+    "js:prod": "babel src/main/resources/static/js/custom/ --out-dir src/main/resources/static/js/custom/ --out-file-extension .min.js --presets=@babel/preset-env --minified --no-comments",
+    "dev": "npm-run-all --serial update copy:all --parallel svg:prod  bootstrap:dev live-reload:copy live-reload:watch",
+    "prod": "npm-run-all --serial update copy:all --parallel bootstrap:prod js:prod svg:prod"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.24.7",
+    "@babel/core": "^7.24.7",
+    "@babel/plugin-transform-spread": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "autoprefixer": "^10.4.19",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "browser-sync": "^3.0.2",
+    "cssnano": "^7.0.2",
+    "htmx-ext-ws": "^2.0.0",
+    "htmx.org": "^1.9.12",
+    "npm-check-updates": "^16.14.20",
+    "onchange": "^7.1.0",
+    "postcss-cli": "^11.0.0",
+    "prettier": "^3.3.1",
+    "sass": "^1.77.4",
+    "shx": "^0.3.4",
+    "svgo": "^3.3.2"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

@@ -1,0 +1,35 @@
+<!doctype html>
+<html
+    lang="es"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Registros</title>
+    </head>
+    <body>
+        <div class="container-fluid input-group mt-3 justify-content-center mx-auto my-auto mb-2">
+            <form
+                class="form-group d-flex"
+                th:attr="hx-get=@{/panel/aplicativo/explorar/buscarRegistros}"
+                hx-trigger="load, keyup delay:100ms, search"
+                hx-target="#respuestaQueryRegistros"
+                hx-swap="innerHTML transition:true">
+                <label for="busquedaTablasReg"></label>
+                <input
+                    class="form-control"
+                    id="busquedaTablasReg"
+                    name="busqueda"
+                    placeholder="Búsqueda global"
+                    type="text" />
+                <div class="input-group-append">
+                    <button
+                        class="btn btn-success"
+                        type="submit">
+                        <i class="text-white bi bi-search my-auto"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div id="respuestaQueryRegistros"></div>
+    </body>
+</html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Editar Monitor</title>
+    </head>
+    <body>
+        <div
+            class="card my-3"
+            th:id="'monitor' + ${monitor.id}">
+            <div class="card-header align-middle d-flex">
+                <button
+                    class="btn btn-primary my-auto"
+                    th:onclick="'imprimir(\'monitor' + ${monitor.id} + '\')'">
+                    <i class="bi bi-printer"></i>
+                </button>
+
+                <button
+                    class="btn btn-danger my-auto"
+                    hx-swap="outerHTML transition:true"
+                    th:attr="hx-get=@{/panel/aplicativo/explorar/monitorById(id=${monitor.id})},
+                        hx-target='#monitor' + ${monitor.id}">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+                <h5 class="mx-2 my-auto">Monitor [[${monitor.numeroSerie}]]</h5>
+            </div>
+            <form
+                class="card-body row"
+                hx-trigger="submit"
+                method="post"
+                th:action="@{/editarMonitorById}"
+                th:attr="hx-post=@{/panel/aplicativo/explorar/editarMonitorById(id=${monitor.id})}, hx-target='#monitor' + ${monitor.id}"
+                th:id="'editarMonitorForm' + ${monitor.id}"
+                th:object="${monitor}">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="etiqueta">ID MSSQL</label>
+                        <input
+                            class="form-control"
+                            disabled
+                            id="id"
+                            th:field="*{id}"
+                            type="text" />
+                    </div>
+
+                    <!-- Etiqueta -->
+                    <div class="form-group">
+                        <label for="etiqueta">Etiqueta</label>
+                        <input
+                            class="form-control"
+                            id="etiqueta"
+                            th:field="*{etiqueta.referencia}"
+                            type="text" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ordenador">Etiqueta PC</label>
+                        <select
+                            class="form-control"
+                            id="ordenador"
+                            th:field="*{ordenador}">
+                            <option value="">NULL</option>
+                            <option
+                                th:each="etiquetaPc : ${etiquetasAsoc}"
+                                th:text="${etiquetaPc.referencia}"
+                                th:value="${etiquetaPc.ordenadorAsociado.id}"></option>
+                        </select>
+                    </div>
+
+                    <!-- Número de Serie -->
+                    <div class="form-group">
+                        <label for="numeroSerie">Número de Serie</label>
+                        <input
+                            class="form-control"
+                            id="numeroSerie"
+                            th:field="*{numeroSerie}"
+                            type="text" />
+                    </div>
+                </div>
+
+                <div class="col">
+                    <!-- Propuesto retirada -->
+                    <!-- Modelo Monitor -->
+                    <div class="form-group">
+                        <label for="modeloMonitor">Modelo Monitor</label>
+                        <select
+                            class="form-control"
+                            id="modeloMonitor"
+                            th:field="*{modeloMonitor.id}">
+                            <option
+                                th:each="modelo : ${modelosMonitor}"
+                                th:text="${modelo.referencia}"
+                                th:value="${modelo.id}"></option>
+                        </select>
+                    </div>
+
+                    <!-- Garantía -->
+                    <div class="form-group">
+                        <label for="garantia">Garantía</label>
+                        <input
+                            class="form-control"
+                            id="garantia"
+                            name="garantia"
+                            th:value="${#temporals.format(monitor.garantia, 'yyyy-MM-dd''T''HH:mm')}"
+                            type="datetime-local" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="propuestaRetirada">Propuesto retirada</label>
+                        <input
+                            class="form-check-input"
+                            id="propuestaRetirada"
+                            th:field="*{propuestoRetirada}"
+                            th:value="${monitor.propuestoRetirada}"
+                            type="checkbox" />
+                    </div>
+
+                    <!-- Activo -->
+                    <div class="form-group">
+                        <label for="activo">Activo</label>
+                        <input
+                            class="form-check-input"
+                            id="activo"
+                            th:field="*{activo}"
+                            th:value="${monitor.activo}"
+                            type="checkbox" />
+                    </div>
+                    <button
+                        class="my-auto btn btn-success"
+                        type="submit">
+                        <span class="bi bi-floppy"></span>
+                        Guardar
+                    </button>
+                    <button
+                        class="my-auto btn btn-danger"
+                        hx-swap="outerHTML transition:true"
+                        th:attr="hx-get=@{/panel/aplicativo/explorar/monitorById(id=${monitor.id})},
+                        hx-target='#monitor' + ${monitor.id}">
+                        <span class="bi bi-x-circle"></span>
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

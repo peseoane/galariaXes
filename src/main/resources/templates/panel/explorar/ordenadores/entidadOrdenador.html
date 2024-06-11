@@ -1,0 +1,657 @@
+<!doctype html>
+<html
+    lang="en"
+    xmlns="http://www.w3.org/1999/html"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Ordenadores</title>
+    </head>
+    <body>
+        <div
+            class="card my-3"
+            th:id="'ordenador' + ${ordenador.id}">
+            <div class="card-header align-middle d-flex">
+                <div class="btn-group">
+                    <!-- Botón de imprimir el ordenador -->
+                    <button
+                        class="btn btn-primary my-auto"
+                        th:onclick="'imprimir(\'ordenador' + ${ordenador.id} + '\')'">
+                        <i class="bi bi-printer"></i>
+                    </button>
+
+                    <!-- Botón de editar el ordenador -->
+                    <button
+                        class="btn btn-success my-auto"
+                        hx-swap="outerHTML transition:true"
+                        th:attr="hx-get=@{/panel/aplicativo/explorar/editarOrdenadorById(id=${ordenador.id})}, hx-target = '#ordenador' + ${ordenador.id}">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+
+                    <!-- Botón de eliminar el ordenador -->
+                    <button
+                        class="btn btn-danger my-auto"
+                        data-bs-toggle="modal"
+                        th:attr="data-bs-target='#modal-confirmDelete' + ${ordenador.id}"
+                        type="button">
+                        <i class="bi bi-trash"></i>
+                    </button>
+
+                    <!-- Botón para añadir incidencias -->
+                    <!-- Botón para añadir incidencias -->
+                    <button
+                        class="btn btn-warning my-auto"
+                        data-bs-toggle="modal"
+                        hx-swap="outerHTML transition:true"
+                        hx-target="this"
+                        hx-trigger="click"
+                        th:attr="data-bs-target='#modal-crearIncidencia' + ${ordenador.id}, hx-get=@{/panel/aplicativo/explorar/crearIncidenciaByEtiquetaId(id=${ordenador.etiqueta.id})}, hx-target='#respuestaCrearModalIncidencia' + ${ordenador.id}"
+                        type="button">
+                        <i class="bi bi-exclamation-triangle text-black"></i>
+                    </button>
+
+                    <!-- Modal para crear incidencia -->
+                    <div
+                        class="modal fade"
+                        tabindex="-1"
+                        th:id="'modal-crearIncidencia' + ${ordenador.id}">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div
+                                class="modal-content"
+                                th:id="'crearIncidencia' + ${ordenador.id}">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Crear Incidencia</h5>
+                                    <button
+                                        aria-label="Close"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        th:attr="hx-get=@{/panel/aplicativo/explorar/ordenadorById(id=${ordenador.id})},
+                    hx-swap='outerHTML transition:true',
+                    hx-target='#ordenador' + ${ordenador.id}"
+                                        type="button"></button>
+                                </div>
+                                <div th:id="'respuestaCrearModalIncidencia' + ${ordenador.id}"></div>
+                                <div class="modal-footer">
+                                    <button
+                                        class="btn btn-info"
+                                        data-bs-dismiss="modal"
+                                        th:attr="hx-get=@{/panel/aplicativo/explorar/ordenadorById(id=${ordenador.id})},
+                    hx-swap='outerHTML transition:true',
+                    hx-target='#ordenador' + ${ordenador.id}"
+                                        type="button">
+                                        <span class="bi bi-arrow-return-left"></span>
+                                        <span>Salir y actualizar</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal de eliminar ordenador (pedir confirmación) -->
+                    <div
+                        aria-hidden="true"
+                        class="modal fade"
+                        data-bs-backdrop="static"
+                        data-bs-keyboard="false"
+                        tabindex="-1"
+                        th:attr="aria-labelledby='modal-confirmDeleteLabel' + ${ordenador.id}"
+                        th:id="'modal-confirmDelete' + ${ordenador.id}">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5
+                                        class="modal-title"
+                                        th:id="'modal-confirmDeleteLabel' + ${ordenador.id}">
+                                        Confirmar eliminación
+                                    </h5>
+                                    <button
+                                        aria-label="Close"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        type="button"></button>
+                                </div>
+                                <div class="modal-body">¿Estás seguro de que quieres eliminar este elemento?</div>
+                                <div class="modal-footer">
+                                    <button
+                                        class="btn btn-success"
+                                        data-bs-dismiss="modal"
+                                        type="button">
+                                        <span class="bi bi-arrow-return-left"></span>
+                                        <span>Cancelar</span>
+                                    </button>
+                                    <button
+                                        class="btn btn-danger"
+                                        data-bs-dismiss="modal"
+                                        th:attr="hx-get=@{/panel/aplicativo/explorar/eliminarOrdenadorById(id=${ordenador.id})}, hx-swap='outerHTML transition:true', hx-target='#ordenador' + ${ordenador.id}"
+                                        th:id="'modal-confirmDeleteButton' + ${ordenador.id}"
+                                        type="button">
+                                        <span class="bi bi-radioactive"></span>
+                                        <span>Eliminar</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Título (etiqueta) del PC al lado de los botones -->
+
+                <h5 class="mx-2 my-auto">Equipo [[${ordenador?.etiqueta?.referencia}]]</h5>
+                <div
+                        class="d-flex align-middle align-content-center align-items-center mx-2">
+                    <span>Actualizado:</span>
+                    <span class="mx-2"
+                            th:text="${#temporals.format(ordenador?.getFechaActualizacion(), 'yyyy-MM-dd hh:mm')}"></span>
+                </div>
+
+            </div>
+
+            <div class="card-body">
+                <!-- Datos del ordenador -->
+                <table class="table table-hover table-bordered mb-3">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Id</th>
+                            <th>Tipo</th>
+                            <th>Etiqueta</th>
+                            <th>Serial</th>
+                            <th>Modelo</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td th:text="${ordenador.id}"></td>
+                            <td th:text="${ordenador.tipoElemento.tipo}"></td>
+                            <td
+                                class="font-monospace fw-bolder"
+                                th:text="${ordenador.etiqueta.referencia}"></td>
+                            <td
+                                class="font-monospace"
+                                th:text="${ordenador.numeroSerie}"></td>
+                            <td th:text="${ordenador.getModeloOrdenador.referencia}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Contratos y garantias -->
+                <table class="table table-hover table-bordered mb-3">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Contrato</th>
+                            <th>Garantia (Finaliza)</th>
+                            <th>Notas</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td th:text="${ordenador.contrato?.referencia}"></td>
+                            <td th:text="${#temporals.format(ordenador.garantia, 'yy-MM-dd')}"></td>
+                            <td th:text="${ordenador.contrato?.notas}"></td>
+                        </tr>
+                    </tbody>
+
+                    <!-- OS -->
+                    <table class="table table-hover table-bordered mb-3">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>OS Nombre</th>
+                                <th>OS Codename</th>
+                                <th>OS Version</th>
+                                <th>OS Compilacion</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <tr>
+                                <td th:text="${ordenador.sistemaOperativo.nombre}"></td>
+                                <td
+                                    class="font-monospace"
+                                    th:text="${ordenador.sistemaOperativo?.codename}"></td>
+                                <td
+                                    class="font-monospace"
+                                    th:text="${ordenador.sistemaOperativo.version}"></td>
+                                <td
+                                    class="font-monospace"
+                                    th:text="${ordenador.sistemaOperativo.compilacion}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- IP -->
+                    <table class="table table-hover table-bordered mb-3">
+                        <thead class="table-primary">
+                            <tr>
+                                <th class="text-center">PING</th>
+                                <th class="text-center">NMAP</th>
+                                <th>IP</th>
+                                <th>MAC</th>
+                                <th>Desde</th>
+                                <th>Info</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <tr th:each="if : ${ordenador.getInterfacesRedAsociadas()}">
+                                <td>
+                                    <form class="d-flex justify-content-center align-middle">
+                                        <button
+                                            class="btn btn-primary"
+                                            hx-indicator="#loadingIconNavbar"
+                                            th:attr="hx-post=@{/panel/aplicativo/explorar/pingOrdenadorPorId}"
+                                            hx-swap="outerHTML transition:true"
+                                            hx-target="this"
+                                            hx-trigger="click"
+                                            th:id="'ordenadorPing' + ${if.id}">
+                                            <i class="bi bi-pci-card-network"></i>
+                                            <input th:replace="~{fragments/csrf}" />
+                                            <input
+                                                hidden
+                                                name="id"
+                                                th:value="${ordenador.id}" />
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form class="d-flex justify-content-center align-middle">
+                                        <button
+                                            class="btn btn-primary"
+                                            hx-indicator="#loadingIconNavbar"
+                                            th:attr="hx-post=@{/panel/aplicativo/explorar/escanearPuertosPorId}"
+                                            hx-swap="outerHTML transition:true"
+                                            hx-target="this"
+                                            hx-trigger="click"
+                                            th:id="'ordenadorNmap' + ${if.id}">
+                                            <i class="bi bi-door-closed"></i>
+                                            <input th:replace="~{fragments/csrf}" />
+                                            <input
+                                                hidden
+                                                name="id"
+                                                th:value="${ordenador.id}" />
+                                        </button>
+                                    </form>
+                                </td>
+                                <td th:text="${if.getIpv4()}"></td>
+                                <td th:text="${if.getMac()}"></td>
+                                <td th:text="${#temporals.format(if.getFechaActualizacion(), 'yy-MM-dd')}"></td>
+                                <td th:text="${if.getNotas()}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Monitor -->
+                    <table class="table table-hover table-bordered mb-3">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Monitor etiqueta</th>
+                                <th>Monitor serial</th>
+                                <th>Monitor modelo</th>
+                                <th>Desde</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <tr
+                                th:each="monitor : ${ordenador.getMonitoresAsociados()}"
+                                th:if="${ordenador.getMonitoresAsociados()}">
+                                <td
+                                    class="font-monospace fw-bolder"
+                                    th:text="${monitor.getEtiqueta()?.getReferencia()}"></td>
+                                <td
+                                    class="font-monospace"
+                                    th:text="${monitor.getNumeroSerie()}"></td>
+                                <td
+                                    class="font-monospace"
+                                    th:text="${monitor.getModeloMonitor()?.getReferencia()}"></td>
+                                <td th:text="${#temporals.format(monitor.getFechaActualizacion(), 'yy-MM-dd')}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Propietario -->
+                    <table class="table table-hover table-bordered mb-3">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Propietario</th>
+                                <th>Servicio</th>
+                                <th>Desde</th>
+                                <th>Notas</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <tr th:each="traza : ${ordenador.getEtiqueta().getTrazasAsociadas()}">
+                                <td th:text="${traza.getLocalizacion().getLocalizacion()}"></td>
+                                <td th:text="${traza.getServicio().getServicio()}"></td>
+                                <th th:text="${#temporals.format(traza.getFechaAlta(), 'dd-MM-yyyy')}"></th>
+                                <td th:text="${traza.getNotas()}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div
+                        class="accordion mb-3"
+                        th:attr="data-bs-parent='#accordionLogs_' + ${ordenador.id}"
+                        th:id="'accordionLogs_' + ${ordenador.id}">
+                        <div class="accordion-item">
+                            <h2
+                                class="accordion-header"
+                                th:id="'headingLogs_' + ${ordenador.id}">
+                                <button
+                                    aria-controls="'collapseLogs_' + ${ordenador.id}"
+                                    aria-expanded="false"
+                                    class="accordion-button collapsed"
+                                    th:attr="data-bs-toggle='collapse', data-bs-target='#collapseLogs_' + ${ordenador.id}"
+                                    type="button">
+                                    <div class="my-auto d-flex align-middle justify-content-between h-100">
+                                        <span class="bi bi-list-columns-reverse"></span>
+                                        <span class="mx-1">Logs</span>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div
+                                class="accordion-collapse collapse accordion-content-scrollable"
+                                th:attr="aria-labelledby='headingLogs_' + ${ordenador.id}"
+                                th:id="'collapseLogs_' + ${ordenador.id}">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Etiqueta</th>
+                                            <th>Nivel</th>
+                                            <th>Descripción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr
+                                            class="small"
+                                            th:each="log : ${ordenador.getEtiqueta().getLogsAsociados()}">
+                                            <th th:text="${#temporals.format(log.getFecha(), 'dd-MM-yyyy')}"></th>
+                                            <td th:text="${log?.getEtiqueta()?.getReferencia()}"></td>
+                                            <td th:text="${log?.getNivel()?.getNivel()}"></td>
+                                            <td th:text="${log?.getDescripcion()}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Incidencias -->
+                    <div
+                        class="accordion mb-3"
+                        th:attr="data-bs-parent='#accordionIncidencias_' + ${ordenador.id}"
+                        th:id="'accordionIncidencias_' + ${ordenador.id}">
+                        <div class="accordion-item">
+                            <h2
+                                class="accordion-header"
+                                th:id="'headingIncidencias_' + ${ordenador.id}">
+                                <button
+                                    aria-controls="'collapseIncidencias_' + ${ordenador.id}"
+                                    aria-expanded="false"
+                                    class="accordion-button collapsed"
+                                    th:attr="data-bs-toggle='collapse', data-bs-target='#collapseIncidencias_' + ${ordenador.id}"
+                                    type="button">
+                                    <div class="my-auto d-flex align-middle justify-content-between h-100">
+                                        <span class="bi bi-exclamation-triangle"></span>
+                                        <span class="mx-1">Incidencias</span>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div
+                                class="accordion-collapse collapse"
+                                th:attr="aria-labelledby='headingIncidencias_' + ${ordenador.id}"
+                                th:id="'collapseIncidencias_' + ${ordenador.id}">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th>OPS</th>
+                                            <th>Fecha alta</th>
+                                            <th>Fecha actualización</th>
+                                            <th>Estado</th>
+                                            <th>Descripción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr
+                                            class="small"
+                                            th:each="incidencia : ${ordenador?.getEtiqueta()?.getIncidenciasAsociadas()}"
+                                            th:id="'incidencia' + ${incidencia.id}">
+                                            <th class="btn-group">
+                                                <!-- Borrar incidencia por id -->
+                                                <button
+                                                    class="btn btn-danger"
+                                                    data-bs-toggle="modal"
+                                                    th:attr="data-bs-target='#modal-confirmDeleteIncidencia' + ${incidencia.id}"
+                                                    type="button">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+
+                                                <!-- Modal de confirmación para eliminar incidencia -->
+                                                <div
+                                                    aria-hidden="true"
+                                                    aria-labelledby="'modalLabelDelete' + ${incidencia.id}"
+                                                    class="modal fade"
+                                                    tabindex="-1"
+                                                    th:id="'modal-confirmDeleteIncidencia' + ${incidencia.id}">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5
+                                                                    class="modal-title"
+                                                                    th:id="'modalLabelDelete' + ${incidencia.id}">
+                                                                    Confirmar eliminación
+                                                                </h5>
+
+                                                                <button
+                                                                    aria-label="Close"
+                                                                    class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    th:attr="hx-get=@{/panel/aplicativo/explorar/ordenadorById(id=${ordenador.id})},
+                                                                    hx-swap='outerHTML transition:true',
+                                                                    hx-target='#ordenador' + ${ordenador.id}"
+                                                                    type="button"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                ¿Estás seguro de que deseas eliminar esta incidencia?
+                                                                <div th:id="'respuestaEliminarIncidencia' + ${incidencia.id}"></div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <!-- Botón de cancelar, NOS RECARGA la entidad al volver atrás -->
+                                                                <button
+                                                                    class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal"
+                                                                    th:attr="hx-get=@{/panel/aplicativo/explorar/ordenadorById(id=${ordenador.id})},
+                                                                    hx-swap='outerHTML transition:true',
+                                                                    hx-target='#ordenador' + ${ordenador.id}"
+                                                                    type="button">
+                                                                    <span class="bi bi-arrow-return-left"></span>
+                                                                    <span>Cancelar</span>
+                                                                </button>
+                                                                <!-- Botón de confirmación de eliminación de incidencia -->
+                                                                <form
+                                                                    hx-trigger="click, submit"
+                                                                    th:attr="hx-post=@{/panel/aplicativo/explorar/eliminarIncidenciaById(id=${incidencia.id})},
+                                                                    hx-swap='outerHTML transition:true',
+                                                                    hx-target='#respuestaEliminarIncidencia' + ${incidencia.id}">
+                                                                    <input th:replace="~{fragments/csrf}" />
+                                                                    <button
+                                                                        class="btn btn-danger"
+                                                                        type="submit">
+                                                                        <span class="bi bi-radioactive"></span>
+                                                                        <span>Eliminar</span>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Editar incidencia por id -->
+                                                <button
+                                                    class="btn btn-success"
+                                                    data-bs-toggle="modal"
+                                                    hx-swap="innerHTML transition:true"
+                                                    hx-target="this"
+                                                    hx-trigger="click"
+                                                    th:attr="data-bs-target='#modal-editIncidencia' + ${incidencia.id},
+                                                    hx-get=@{/panel/aplicativo/explorar/editarIncidenciaById(id=${incidencia.id})},
+                                                    hx-target='#respuestaEditarModalIncidencia' + ${incidencia.id}"
+                                                    type="button">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+
+                                                <!-- Modal para editar incidencia -->
+                                                <div
+                                                    class="modal fade"
+                                                    tabindex="-1"
+                                                    th:id="'modal-editIncidencia' + ${incidencia.id}">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div
+                                                            class="modal-content"
+                                                            th:id="'editarIncidencia' + ${incidencia.id}">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Editar Incidencia</h5>
+                                                                <button
+                                                                    aria-label="Close"
+                                                                    class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    th:attr="hx-get=@{/panel/aplicativo/explorar/ordenadorById(id=${ordenador.id})},
+                                                                    hx-swap='outerHTML transition:true',
+                                                                    hx-target='#ordenador' + ${ordenador.id}"
+                                                                    type="button"></button>
+                                                            </div>
+                                                            <div th:id="'respuestaEditarModalIncidencia' + ${incidencia.id}"></div>
+                                                            <div class="modal-footer">
+                                                                <button
+                                                                    class="btn btn-info"
+                                                                    data-bs-dismiss="modal"
+                                                                    th:attr="hx-get=@{/panel/aplicativo/explorar/ordenadorById(id=${ordenador.id})},
+                                                                    hx-swap='outerHTML transition:true',
+                                                                    hx-target='#ordenador' + ${ordenador.id}"
+                                                                    type="button">
+                                                                    <span class="bi bi-arrow-return-left"></span>
+                                                                    <span>Salir y actualizar</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th
+                                                class="col-2"
+                                                th:text="${#temporals.format(incidencia?.getFechaAlta(), 'dd-MM-yyyy hh:mm')}"></th>
+                                            <th
+                                                class="col-2"
+                                                th:text="${#temporals.format(incidencia?.getFechaActualizacion(), 'dd-MM-yyyy hh:mm')}"></th>
+                                            <td
+                                                class="col-2"
+                                                th:text="${incidencia?.getEstado()?.getEstado()}"></td>
+                                            <td class="col-6">
+                                                <span
+                                                    th:if="${#strings.length(incidencia?.getDescripcion()) > 64}"
+                                                    th:text="${incidencia?.getDescripcion().substring(0, 64)} + '...'"></span>
+                                                <span
+                                                    th:text="${incidencia?.getDescripcion()}"
+                                                    th:unless="${#strings.length(incidencia?.getDescripcion()) > 64}"></span>
+                                                <button
+                                                    class="btn btn-info p-0"
+                                                    data-bs-toggle="modal"
+                                                    th:attr="data-bs-target='#descripcionModal' + ${incidencia.id}"
+                                                    th:if="${#strings.length(incidencia?.getDescripcion()) > 64}">
+                                                    <span class="bi bi-info-circle"></span>
+                                                </button>
+                                                <div
+                                                    aria-hidden="true"
+                                                    aria-labelledby="'descripcionModalLabel' + ${incidencia.id}"
+                                                    class="modal fade"
+                                                    tabindex="-1"
+                                                    th:id="'descripcionModal' + ${incidencia.id}">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5
+                                                                    class="modal-title"
+                                                                    th:id="'descripcionModalLabel' + ${incidencia.id}">
+                                                                    Descripción completa
+                                                                </h5>
+                                                                <button
+                                                                    aria-label="Close"
+                                                                    class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    type="button"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p th:text="${incidencia?.getDescripcion()}"></p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button
+                                                                    class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal"
+                                                                    type="button">
+                                                                    Cerrar
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trazabilidades // Propietarios
+                    <div
+                        class="accordion mb-3 mt-3"
+                        th:attr="data-bs-parent='#accordionTrazabilidades_' + ${ordenador.id}"
+                        th:id="'accordionTrazabilidades_' + ${ordenador.id}">
+                        <div class="accordion-item">
+                            <h2
+                                class="accordion-header"
+                                th:id="'headingTrazabilidades_' + ${ordenador.id}">
+                                <button
+                                    aria-controls="'collapseTrazabilidades_' + ${ordenador.id}"
+                                    aria-expanded="false"
+                                    class="accordion-button collapsed"
+                                    th:attr="data-bs-toggle='collapse', data-bs-target='#collapseTrazabilidades_' + ${ordenador.id}"
+                                    type="button">
+                                    <div class="my-auto d-flex align-middle justify-content-between h-100">
+                                        <span class="bi bi-person-badge"></span>
+                                        <span class="mx-1">Propietarios</span>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div
+                                class="accordion-collapse collapse"
+                                th:attr="aria-labelledby='headingTrazabilidades_' + ${ordenador.id}"
+                                th:id="'collapseTrazabilidades_' + ${ordenador.id}">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th>Fecha Alta</th>
+                                            <th>Fecha Actualización</th>
+                                            <th>Baja</th>
+                                            <th>Servicio</th>
+                                            <th>Localizacion</th>
+                                            <th>Notas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr
+                                            class="small"
+                                            th:each="traza : ${ordenador.getEtiqueta().getTrazasAsociadas()}">
+                                            <th th:text="${#temporals.format(traza.getFechaAlta(), 'dd-MM-yyyy')}"></th>
+                                            <th th:text="${#temporals.format(traza.getFechaActualizacion(), 'dd-MM-yyyy')}"></th>
+                                            <th th:text="${#temporals.format(traza.getFechaBaja(), 'dd-MM-yyyy')}"></th>
+                                            <td th:text="${traza?.getServicio()?.getServicio()}"></td>
+                                            <td th:text="${traza?.getLocalizacion()?.getLocalizacion()}"></td>
+                                            <td th:text="${traza?.getNotas()}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> -->
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

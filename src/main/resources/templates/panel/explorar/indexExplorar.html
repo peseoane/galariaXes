@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+            name="viewport" />
+        <meta
+            content="ie=edge"
+            http-equiv="X-UA-Compatible" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="container-fluid h-100 w-100 mb-5 mt-5">
+            <!-- PESTAÑAS -->
+            <ul
+                class="nav nav-tabs"
+                id="myTab"
+                role="tablist">
+                <li
+                    class="nav-item"
+                    role="presentation">
+                    <button
+                        class="nav-link active"
+                        data-bs-target="#ordenadores"
+                        data-bs-toggle="tab"
+                        hx-target="#filtadoIndexExplorar"
+                        id="ordenadores-tab"
+                        role="tab"
+                        th:attr="hx-get=@{/panel/aplicativo/explorar/ordenadores}"
+                        hx-swap="innerHTML transition:true"
+                        hx-trigger="click, load"
+                        type="button">
+                        <i class="bi bi-pc-display-horizontal"></i> Ordenadores
+                    </button>
+                </li>
+
+                <li
+                    class="nav-item"
+                    role="presentation">
+                    <button
+                        class="nav-link"
+                        data-bs-target="#monitores"
+                        data-bs-toggle="tab"
+                        hx-target="#filtadoIndexExplorar"
+                        id="monitores-tab"
+                        role="tab"
+                        hx-swap="innerHTML transition:true"
+                        hx-trigger="click"
+                        th:attr="hx-get=@{/panel/aplicativo/explorar/monitores}"
+                        type="button">
+                        <i class="bi bi-display"></i> Monitores
+                    </button>
+                </li>
+                <li
+                    class="nav-item"
+                    role="presentation">
+                    <button
+                        class="nav-link"
+                        data-bs-target="#logs"
+                        data-bs-toggle="tab"
+                        hx-target="#filtadoIndexExplorar"
+                        id="logs-tab"
+                        role="tab"
+                        hx-swap="innerHTML transition:true"
+                        hx-trigger="click"
+                        th:attr="hx-get=@{/panel/aplicativo/explorar/registros}"
+                        type="button">
+                        <i class="bi bi-list-columns-reverse"></i> Logs
+                    </button>
+                </li>
+                <li
+                    class="nav-item"
+                    role="presentation">
+                    <button
+                        class="nav-link"
+                        data-bs-target="#grupos"
+                        data-bs-toggle="tab"
+                        hx-target="#filtadoIndexExplorar"
+                        id="grupos-tab"
+                        role="tab"
+                        hx-swap="innerHTML transition:true"
+                        hx-trigger="click"
+                        th:attr="hx-get=@{/panel/aplicativo/explorar/grupos}"
+                        type="button">
+                        <i class="bi bi-globe2"></i> Grupos
+                    </button>
+                </li>
+                <li
+                    class="nav-item"
+                    role="presentation">
+                    <button
+                        class="nav-link"
+                        data-bs-target="#contratos"
+                        data-bs-toggle="tab"
+                        hx-swap="innerHTML transition:true"
+                        hx-target="#filtadoIndexExplorar"
+                        hx-trigger="click"
+                        id="contratos-tab"
+                        role="tab"
+                        th:attr="hx-get=@{/panel/aplicativo/explorar/contratos}"
+                        type="button">
+                        <i class="bi bi-file-text"></i> Contratos
+                    </button>
+                </li>
+                <li
+                    class="nav-item"
+                    role="presentation">
+                    <button
+                        class="nav-link"
+                        data-bs-target="#etiquetas"
+                        data-bs-toggle="tab"
+                        hx-swap="innerHTML transition:true"
+                        hx-target="#filtadoIndexExplorar"
+                        hx-trigger="click"
+                        id="etiquetas-tab"
+                        role="tab"
+                        th:attr="hx-get=@{/panel/aplicativo/explorar/etiquetas}"
+                        type="button">
+                        <i class="bi bi-tag"></i> Etiquetas
+                    </button>
+                </li>
+
+                <li
+                        class="nav-item"
+                        role="presentation">
+                    <button
+                            class="nav-link"
+                            data-bs-target="#garantias"
+                            data-bs-toggle="tab"
+                            hx-target="#filtadoIndexExplorar"
+                            id="garantias-tab"
+                            role="tab"
+                            th:attr="hx-get=@{/panel/aplicativo/explorar/garantias}"
+                            hx-swap="innerHTML transition:true"
+                            hx-trigger="click"
+                            type="button">
+                        <i class="bi bi-wallet"></i> Garantías
+                    </button>
+                </li>
+
+                <li
+                        class="nav-item"
+                        role="presentation">
+                    <button
+                            class="nav-link"
+                            data-bs-target="#exportar"
+                            data-bs-toggle="tab"
+                            hx-target="#filtadoIndexExplorar"
+                            id="exportar-tab"
+                            role="tab"
+                            th:attr="hx-get=@{/panel/aplicativo/explorar/exportar}"
+                            hx-swap="innerHTML transition:true"
+                            hx-trigger="click"
+                            type="button">
+                        <i class="bi bi-floppy"></i> Exportar vistas
+                    </button>
+                </li>
+
+            </ul>
+
+            <div
+                class="tab-content"
+                id="filtadoIndexExplorar"></div>
+        </div>
+    </body>
+</html>

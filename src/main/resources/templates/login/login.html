@@ -1,0 +1,161 @@
+<!doctype html>
+<html
+    lang="en"
+    xmlns="http://www.w3.org/1999/html"
+    xmlns:th="http://www.thymeleaf.org">
+    <header th:replace="~{fragments/header}"></header>
+
+    <body>
+    <div id="bienvenida" class="vh-100 vw-100 bg-cover">
+        <div id="video-background">
+            <video
+                autoplay
+                loop
+                muted>
+                <source
+                    th:src="@{/video/dronMeixo.webm}"
+                    type="video/webm" />
+            </video>
+        </div>
+
+        <div class="container d-flex h-100 align-items-center justify-content-center">
+            <div
+                class="modal-dialog modal-dialog-centered"
+                id="formularioLogin">
+                <div class="modal-content p-4">
+                    <div
+                        class="text-center mb-4"
+                        th:fragment="hero">
+                        <img
+                            alt="galeria"
+                            class="h-auto w-50 mb-3 svg-shadow"
+                            id="temaClaro"
+                            th:src="@{/svg/galariaPositivo.svg}" />
+                        <button th:replace="~{fragments/toggleThemeDropdown :: completo}"></button>
+                        <div class="d-flex flex-column text-primary">
+                            <h1
+                                class="fw-normal h1 m-0 p-0"
+                                id="etiquetaTitulo">
+                                GalariaXes
+                            </h1>
+                            <div
+                                class="d-flex align-items-center justify-content-center"
+                                id="etiquetaVersionDescripcion">
+                                <span
+                                    class="d-inline-flex align-items-center bg-primary px-2 py-1 text-xs fw-medium text-white border border-primary"
+                                    >V1.0</span
+                                >
+                                <span class="d-inline-flex align-items-center px-2 py-1 text-xs fw-medium border border-primary"
+                                    >Aplicativo para xestionar inventario e AD.</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <form
+                        th:attr="hx-post=@{/login}"
+                        hx-push-url="true"
+                        hx-swap=" innerHTML transition:true"
+                        hx-target="this"
+                        th:fragment="formularioLogin">
+                        <input th:replace="~{fragments/csrf}" />
+                        <h3 class="h4 text-center mb-3">Inicio profesionais</h3>
+                        <div class="mb-3">
+                            <label
+                                class="form-label"
+                                for="username"
+                                >Usuario:</label
+                            >
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <span class="input-group-text">sergas\</span>
+                                <input
+                                    autocomplete="username"
+                                    class="form-control"
+                                    id="username"
+                                    name="username"
+                                    placeholder="greghouse"
+                                    required
+                                    type="text" />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label
+                                class="form-label"
+                                for="password"
+                                >Contrasinal</label
+                            >
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-key"></i></span>
+                                <input
+                                    autocomplete="current-password"
+                                    class="form-control"
+                                    id="password"
+                                    name="password"
+                                    required
+                                    type="password" />
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button
+                                class="btn btn-primary"
+                                id="botonIngresar">
+                                <i class="bi bi-box-arrow-in-right mx-1"></i>
+                                <span>Ingresar</span>
+                            </button>
+                            <button
+                                class="btn btn-secondary"
+                                id="botonReset">
+                                <i class="bi bi-x-circle mx-1"></i>
+                                <span>Borrar</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="respuestaLogin"></div>
+
+        <style>
+
+            body,
+            html {
+                height: 100%;
+                margin: 0;
+                overflow: hidden;
+            }
+
+            .bg-cover {
+                position: relative;
+                z-index: 1;
+            }
+
+            #video-background video {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                min-width: 100%;
+                min-height: 100%;
+                object-fit: cover;
+            }
+
+            [data-bs-theme="dark"] #formularioLogin {
+                background: rgba(0, 46, 79, 0.6);
+                backdrop-filter: blur(3px);
+            }
+
+            [data-bs-theme="light"] #formularioLogin {
+                background: rgba(255, 255, 255, 0.68);
+                backdrop-filter: blur(3px);
+            }
+
+            @media (max-width: 768px) {
+                #formularioLogin {
+                    width: 100%;
+                    padding: 1rem;
+                }
+            }
+        </style>
+    </div>
+    </body>
+</html>

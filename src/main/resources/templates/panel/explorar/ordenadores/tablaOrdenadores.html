@@ -1,0 +1,98 @@
+<!doctype html>
+<html
+    lang="en"
+    xmlns="http://www.w3.org/1999/html"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Ordenadores</title>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div
+            class="row row-cols-1"
+            id="tablaConBusqueda">
+            <div class="d-flex align-items-start mx-auto my-3">
+                <div class="card mx-2 col-2 flex-fill">
+                    <div class="card-header">MSSQL</div>
+                    <div class="card-body d-flex flex-column">
+                        <button
+                            class="btn btn-primary my-1"
+                            th:attr="hx-get=@{/panel/aplicativo/explorar/crearOrdenador}"
+                            hx-swap="innerHTML transition:true"
+                            hx-target="#creacionActual">
+                            <i class="bi bi-pc my-auto"></i>
+                            <span>Crear ordenador</span>
+                        </button>
+                        <button
+                            class="btn btn-primary my-1"
+                            th:attr="hx-get=@{/panel/aplicativo/explorar/crearFabricante}"
+                            hx-swap="innerHTML transition:true"
+                            hx-target="#creacionActual">
+                            <i class="bi bi-motherboard my-auto"></i>
+                            <span>Crear fabricante</span>
+                        </button>
+                        <button
+                            class="btn btn-primary my-1"
+                            th:attr="hx-get=@{/panel/aplicativo/explorar/crearModeloOrdenador}"
+                            hx-swap="innerHTML transition:true"
+                            hx-target="#creacionActual">
+                            <i class="bi bi-modem my-auto"></i>
+                            <span>Crear modelo ordenador</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    class="m-0 p-0"
+                    id="creacionActual"></div>
+
+                <div class="card mx-2 col-2 flex-fill">
+                    <div class="card-header">Instrucciones</div>
+                    <div class="card-body">
+                        Los datos específicos de procesador, GPU y red se adquiren automáticamente por PowerShell, para evitar problemas de
+                        que la base de datos refleje mentiras, NO se permite editar estos campos.
+                    </div>
+                </div>
+
+                <div class="card mx-2 col-2 flex-fill">
+                    <div class="card-header text-center">
+                        <span class="bi bi-list-ol"></span>
+                        <span>Count Query</span>
+                    </div>
+                    <div class="card-body d-flex justify-content-center">
+                        <span
+                            class="mx-auto my-auto display-5"
+                            th:text="${ordenadores.size()}"></span>
+                    </div>
+                </div>
+
+                <div class="card mx-2 col-2 flex-fill">
+                    <div class="card-header text-center">
+                        <span class="bi bi-lightning-charge"></span>
+                        <span>Latencia MSSQL</span>
+                    </div>
+                    <div class="card-body d-flex justify-content-cente display-5">
+                        <div class="mx-auto my-auto">
+                            <span th:text="${tiempoQuery}"></span>
+                            <span>ms</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="col"
+                hx-swap="innerHTML"
+                hx-target="this"
+                hx-trigger="intersect"
+                th:attr="hx-get=@{/panel/aplicativo/explorar/ordenadorById(id=${ordenadorId})}"
+                th:each="ordenadorId, iterStatus : ${ordenadores}">
+                <div
+                    class="spinner-border"
+                    role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

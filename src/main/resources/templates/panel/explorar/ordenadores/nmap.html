@@ -1,0 +1,17 @@
+<!-- Si hay un error, mostrar el mensaje de error -->
+<div class="m-0 p-1 alert alert-warning"  th:if="${error}">
+    <span class="bi bi-bug"></span>
+    <span th:text="${error}"></span>
+</div>
+
+<!-- Si hay resultados del escáner, mostrar la tabla -->
+<table th:unless="${error}">
+    <tr>
+        <th>Puerto</th>
+        <th>Estado</th>
+    </tr>
+    <tr th:each="fila : ${resultadoEscaner}">
+        <td th:text="${fila[0]}"></td>
+        <td th:text="${fila[1]}"></td>
+    </tr>
+</table>

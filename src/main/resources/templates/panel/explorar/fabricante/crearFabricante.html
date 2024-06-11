@@ -1,0 +1,67 @@
+<!doctype html>
+<html
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Crear Monitor</title>
+    </head>
+    <body>
+        <div class="card">
+            <div class="card-header align-middle d-flex">
+                <h5 class="mx-2 my-auto">Crear Fabricante</h5>
+            </div>
+            <form
+                class="card-body"
+                th:attr="hx-post=@{/panel/aplicativo/explorar/crearFabricante}"
+                hx-swap="innerHTML transition:true"
+                hx-target="this"
+                hx-trigger="submit"
+                th:id="'crearFabricante'"
+                th:object="${fabricante}">
+                <div class="col">
+                    <input th:replace="~{fragments/csrf}" />
+                    <input
+                        th:field="*{id}"
+                        type="hidden" />
+                    <!-- Nombre -->
+                    <div class="form-group">
+                        <label for="nombre">Referencia</label>
+                        <input
+                            class="form-control"
+                            id="nombre"
+                            th:field="*{referencia}"
+                            type="text" />
+                    </div>
+                </div>
+
+                <div class="col">
+                    <button
+                        class="my-auto btn btn-success"
+                        type="submit">
+                        <span class="bi bi-floppy"></span>
+                        Guardar
+                    </button>
+                    <button
+                        class="my-auto btn btn-danger"
+                        type="reset">
+                        <span class="bi bi-x-circle"></span>
+                        Limpiar
+                    </button>
+                    <button
+                        class="my-auto btn btn-primary"
+                        id="cancelar"
+                        type="button">
+                        <span class="bi bi-arrow-counterclockwise"></span>
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+        <script>
+            document.getElementById("cancelar").addEventListener("click", function () {
+                document.getElementById("creacionActual").innerHTML = "";
+            });
+        </script>
+    </body>
+</html>

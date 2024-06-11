@@ -1,0 +1,21 @@
+services:
+
+  springboot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aplicativo-inventario
+    working_dir: /usr/src/app
+    environment:
+      - TZ=Europe/Madrid
+    ports:
+      - 9000:8080
+    volumes:
+      - m2:/root/.m2
+      - ./certs:/usr/src/app/certs
+      - ./src:/usr/src/app/src
+      - ./pom.xml:/usr/src/app/pom.xml
+    command: ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=prod,sergas-local,ssl,ad-sergas"]
+
+volumes:
+  m2:

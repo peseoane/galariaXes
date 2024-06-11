@@ -1,0 +1,96 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Nueva incidencia</title>
+    </head>
+    <body>
+        <form
+            class="container m-2"
+            th:attr="hx-post=@{/panel/aplicativo/explorar/editarIncidenciaById}"
+            hx-swap="innerHTML transition:true"
+            hx-target="#respuestaEditarModalIncidencia"
+            th:object="${incidencia}">
+            <input th:replace="~{fragments/csrf}" />
+            <input
+                th:field="*{etiqueta}"
+                type="hidden" />
+
+            <div class="mb-3">
+                <label
+                    class="form-label"
+                    for="referencia"
+                    >Referencia</label
+                >
+                <input
+                    class="form-control"
+                    disabled
+                    id="referencia"
+                    readonly
+                    th:value="${incidencia.etiqueta.referencia}"
+                    type="text" />
+            </div>
+            <div class="mb-3">
+                <label
+                    class="form-label"
+                    for="descripcion"
+                    >Descripción</label
+                >
+                <textarea
+                    class="form-control"
+                    id="descripcion"
+                    required
+                    rows="3"
+                    th:field="*{descripcion}"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label
+                    class="form-label"
+                    for="estado"
+                    >Estado</label
+                >
+                <select
+                    class="form-control"
+                    id="estado"
+                    th:field="*{estado}">
+                    <option
+                        th:each="estado : ${estados}"
+                        th:selected="${estado.estado.equals('Pendiente')}"
+                        th:text="${estado.estado}"
+                        th:value="${estado.id}"></option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label
+                    class="form-label"
+                    for="fechaAlta"
+                    >Fecha Alta</label
+                >
+                <input
+                    class="form-control"
+                    disabled
+                    id="fechaAlta"
+                    readonly
+                    th:field="*{fechaAlta}"
+                    th:value="*{fechaAlta} ? ${#temporals.format(fechaAlta, 'yyyy-MM-dd HH:mm')}"
+                    type="text" />
+            </div>
+
+            <button
+                class="btn btn-secondary"
+                type="reset">
+                <span class="bi bi-arrow-counterclockwise"></span>
+                <span>Reset</span>
+            </button>
+
+            <button
+                class="btn btn-success"
+                type="submit">
+                <span class="bi bi-save"></span>
+                <span>Guardar</span>
+            </button>
+            <div id="respuestaEditarModalIncidencia"></div>
+        </form>
+    </body>
+</html>

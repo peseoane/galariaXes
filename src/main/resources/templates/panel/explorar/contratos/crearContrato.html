@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <title>Crear contrato</title>
+        <meta charset="UTF-8" />
+        <meta
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+            name="viewport" />
+        <meta
+            content="ie=edge"
+            http-equiv="X-UA-Compatible" />
+    </head>
+    <body>
+        <div
+            class="card mx-auto my-auto"
+            id="nuevoContrato">
+            <div class="card-header">Nuevo contrato</div>
+            <div class="card-body">
+                <form
+                    th:attr="hx-post=@{/panel/aplicativo/explorar/crearContrato}"
+                    class="form-group"
+                    hx-target="this"
+                    hx-swap="outerHTML transition:true"
+                    method="post"
+                    th:object="${contrato}">
+                    <input th:replace="~{fragments/csrf}" />
+
+                    <div class="form-group">
+                        <label for="referencia">Referencia</label>
+                        <input
+                            class="form-control"
+                            id="referencia"
+                            th:field="${contrato.referencia}"
+                            placeholder="Ejemplo NI-SER1-16-011"
+                            required="required"
+                            type="text" />
+                        <!-- Campo input para la referencia -->
+                    </div>
+
+                    <div class="form-group my-2">
+                        <label for="fechaCompra">Fecha de compra</label>
+                        <input
+                            class="form-control"
+                            id="fechaCompra"
+                            th:field="${contrato.fechaCompra}"
+                            placeholder="Fecha de compra"
+                            required="required"
+                            type="datetime-local" />
+                    </div>
+
+                    <div class="form-group my-2">
+                        <label for="notas">Notas</label>
+                        <textarea
+                            class="form-control"
+                            id="notas"
+                            cols="80"
+                            placeholder="adquisición de la evolución a Sistema TIM de la resonancia magnética 1,5T MAGNETOM SYMPHONY instalada en el Hospital de Conxo."
+                            required="required"
+                            th:field="${contrato.notas}">
+                        </textarea>
+                    </div>
+
+                    <div class="form-group my-2">
+                        <label for="fechaAlta">Fecha de alta</label>
+                        <input
+                            class="form-control"
+                            id="fechaAlta"
+                            disabled
+                            placeholder="Fecha de alta"
+                            readonly
+                            th:field="${contrato.fechaAlta}"
+                            required="required"
+                            type="datetime-local" />
+                    </div>
+
+                    <script>
+                        // Asignar fecha por defecto a HOY ahora con localdatetime
+                        document.getElementById("fechaAlta").value = new Date().toISOString().slice(0, 16);
+                    </script>
+
+                    <div class="form-group my-2">
+                        <label for="periodoGarantia">Periodo de garantía</label>
+                        <input
+                            class="form-control"
+                            id="periodoGarantia"
+                            th:field="${contrato.periodoGarantia}"
+                            placeholder="Indicado en meses"
+                            required="required"
+                            type="number" />
+                    </div>
+
+                    <div class="form-group my-2">
+                        <label for="fechaActualizacion">Fecha de actualización</label>
+                        <input
+                            class="form-control"
+                            id="fechaActualizacion"
+                            disabled
+                            placeholder="Fecha de actualización"
+                            readonly
+                            th:field="${contrato.fechaActualizacion}"
+                            type="datetime-local" />
+                    </div>
+
+                    <div class="form-group my-2">
+                        <button
+                            class="btn btn-success"
+                            type="submit">
+                            <span class="bi bi-floppy"></span>
+                            Guardar
+                        </button>
+                        <button
+                            class="btn btn-danger"
+                            type="reset">
+                            <span class="bi bi-x-circle"></span>
+                            Limpiar
+                        </button>
+                        <button
+                            class="btn btn-primary"
+                            id="cancelar"
+                            type="button">
+                            <span class="bi bi-arrow-counterclockwise"></span>
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

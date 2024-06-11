@@ -1,0 +1,203 @@
+<!doctype html>
+<html
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Editar Ordenador</title>
+    </head>
+    <body>
+        <div
+            class="card my-3"
+            th:id="'ordenador' + ${ordenador.id}">
+            <div class="card-header align-middle d-flex">
+                <button
+                    class="btn btn-primary my-auto"
+                    th:onclick="'imprimir(\'ordenador' + ${ordenador.id} + '\')'">
+                    <i class="bi bi-printer"></i>
+                </button>
+
+                <button
+                    class="btn btn-danger my-auto"
+                    hx-swap="outerHTML transition:true"
+                    th:attr="
+                    hx-get=@{/panel/aplicativo/explorar/ordenadorById(id=${ordenador.id})},
+                    hx-target='#ordenador' + ${ordenador.id}">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+
+                <h5 class="mx-2 my-auto">Equipo [[${ordenador.etiqueta.referencia}]]</h5>
+            </div>
+            <form
+                hx-trigger="submit"
+                class="card-body"
+                method="post"
+                th:id="'editarOrdenadorForm' + ${ordenador.id}"
+                th:action="@{/editarOrdenadorById}"
+                hx-swap="outerHTML transition:true"
+                th:attr="
+                hx-post=@{/panel/aplicativo/explorar/editarOrdenadorById(id=${ordenador.id})},
+                hx-target='#ordenador' + ${ordenador.id}"
+                th:object="${ordenador}">
+                <input
+                    th:field="*{id}"
+                    type="hidden" />
+
+                <!-- Tipo Elemento -->
+                <div class="form-group">
+                    <label for="tipoElemento">Tipo Elemento</label>
+                    <select
+                        class="form-control"
+                        id="tipoElemento"
+                        th:field="*{tipoElemento.id}">
+                        <option
+                            th:each="tipo : ${tiposElemento}"
+                            th:text="${tipo.tipo}"
+                            th:value="${tipo.id}"></option>
+                    </select>
+                </div>
+
+                <!-- Etiqueta -->
+                <div class="form-group">
+                    <label for="etiqueta">Etiqueta</label>
+                    <input
+                        class="form-control"
+                        id="etiqueta"
+                        th:field="*{etiqueta.referencia}"
+                        type="text" />
+                </div>
+
+                <!-- Número de Serie -->
+                <div class="form-group">
+                    <label for="numeroSerie">Número de Serie</label>
+                    <input
+                        class="form-control"
+                        id="numeroSerie"
+                        th:field="*{numeroSerie}"
+                        type="text" />
+                </div>
+
+                <!-- Modelo PC -->
+                <div class="form-group">
+                    <label for="modeloOrdenador">Modelo PC</label>
+                    <select
+                        class="form-control"
+                        id="modeloOrdenador"
+                        th:field="*{modeloOrdenador.id}">
+                        <option
+                            th:each="modelo : ${modelosOrdenador}"
+                            th:text="${modelo.referencia}"
+                            th:value="${modelo.id}"></option>
+                    </select>
+                </div>
+
+                <!-- Sistema Operativo -->
+                <div class="form-group">
+                    <label for="sistemaOperativo">Sistema Operativo</label>
+                    <select
+                        class="form-control"
+                        id="sistemaOperativo"
+                        th:field="*{sistemaOperativo.id}">
+                        <option
+                            th:each="so : ${sistemasOperativos}"
+                            th:text="${so.nombre}"
+                            th:value="${so.id}"></option>
+                    </select>
+                </div>
+
+                <!-- RAM -->
+                <div class="form-group">
+                    <label for="ram">RAM</label>
+                    <input
+                        class="form-control"
+                        id="ram"
+                        th:field="*{ram}"
+                        type="number" />
+                </div>
+
+                <!-- Garantía -->
+                <div class = "form-group">
+                    <label for = "garantia">Garantía</label>
+                    <input
+                            class = "form-control"
+                            id = "garantia"
+                            name = "garantia"
+                            th:value = "${#temporals.format(ordenador.garantia, 'yyyy-MM-dd''T''HH:mm')}"
+                            type = "datetime-local"/>
+                </div>
+
+                <!-- Activo -->
+                <div class="form-group">
+                    <label for="activo">Propuesto retirada</label>
+                    <input
+                            class="form-check-input"
+                            id="propuestaRetirada"
+                            th:field="*{propuestoRetirada}"
+                            type="checkbox" />
+                </div>
+
+                <!-- Activo -->
+                <div class="form-group">
+                    <label for="activo">Activo</label>
+                    <input
+                        class="form-check-input"
+                        id="activo"
+                        th:field="*{activo}"
+                        type="checkbox" />
+                </div>
+
+                <!-- Notas -->
+                <div class="form-group">
+                    <label for="notas">Notas</label>
+                    <textarea
+                        class="form-control"
+                        id="notas"
+                        maxlength="1024"
+                        rows="3"
+                        th:field="*{notas}"></textarea>
+                </div>
+
+                <!-- Fecha de Alta -->
+                <div class="form-group">
+                    <label for="fechaAlta">Fecha de Alta</label>
+                    <input
+                        class="form-control"
+                        disabled
+                        id="fechaAlta"
+                        readonly
+                        th:value="${#temporals.format(ordenador.fechaAlta, 'yyyy-MM-dd''T''HH:mm')}"
+                        type="datetime-local" />
+                </div>
+
+                <!-- Fecha de Actualización -->
+                <div class="form-group">
+                    <label for="fechaActualizacion">Fecha de Actualización</label>
+                    <input
+                        class="form-control"
+                        disabled
+                        id="fechaActualizacion"
+                        readonly
+                        th:value="${#temporals.format(ordenador.fechaActualizacion, 'yyyy-MM-dd''T''HH:mm')}"
+                        type="datetime-local" />
+                </div>
+
+                <!-- Fecha de Baja -->
+                <div class="form-group">
+                    <label for="fechaBaja">Fecha de Baja</label>
+                    <input
+                        class="form-control"
+                        id="fechaBaja"
+                        th:value="${#temporals.format(ordenador.fechaBaja, 'yyyy-MM-dd''T''HH:mm')}"
+                        type="datetime-local" />
+                </div>
+
+                <button
+                    class="my-auto btn btn-success"
+                    type="submit">
+                    <span class="bi bi-floppy"></span>
+                    Guardar
+                </button>
+            </form>
+        </div>
+    </body>
+</html>

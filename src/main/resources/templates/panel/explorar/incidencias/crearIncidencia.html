@@ -1,0 +1,100 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Nueva incidencia</title>
+    </head>
+    <body>
+        <div
+            class="m-4 p-2"
+            th:id="'crearNuevaIncidencia' + ${incidencia.etiqueta.id}">
+            <form
+                th:attr="hx-post=@{/panel/aplicativo/explorar/crearIncidenciaByEtiquetaId},
+                hx-target='#crearNuevaIncidencia' + ${incidencia.etiqueta.id}"
+                hx-swap="outerHTML "
+                th:object="${incidencia}">
+                <input th:replace="~{fragments/csrf}" />
+                <input
+                    th:field="*{etiqueta}"
+                    type="hidden" />
+
+                <div class="mb-3">
+                    <label
+                        class="form-label"
+                        for="referencia"
+                        >Referencia</label
+                    >
+                    <input
+                        class="form-control"
+                        disabled
+                        id="referencia"
+                        readonly
+                        th:value="${incidencia.etiqueta.referencia}"
+                        type="text" />
+                </div>
+
+                <div class="mb-3">
+                    <label
+                        class="form-label"
+                        for="descripcion"
+                        >Descripción</label
+                    >
+                    <textarea
+                        class="form-control"
+                        id="descripcion"
+                        required
+                        rows="3"
+                        th:field="*{descripcion}"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label
+                        class="form-label"
+                        for="estado"
+                        >Estado</label
+                    >
+                    <select
+                        class="form-control"
+                        id="estado"
+                        th:field="*{estado}">
+                        <option
+                            th:each="estado : ${estados}"
+                            th:selected="${estado.estado.equals('Pendiente')}"
+                            th:text="${estado.estado}"
+                            th:value="${estado.id}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label
+                        class="form-label"
+                        for="fechaAlta"
+                        >Fecha Alta</label
+                    >
+                    <input
+                        class="form-control"
+                        disabled
+                        id="fechaAlta"
+                        readonly
+                        th:field="*{fechaAlta}"
+                        th:value="*{fechaAlta} ? ${#temporals.format(fechaAlta, 'yyyy-MM-dd HH:mm')}"
+                        type="text" />
+                </div>
+
+                <button
+                    class="btn btn-secondary"
+                    th:onclick="'document.getElementById(\'crearNuevaIncidencia' + ${incidencia.etiqueta.id} + '\').innerHTML = \'\';'"
+                    type="reset">
+                    <span class="bi bi-x-circle"></span>
+                    <span>Cancelar</span>
+                </button>
+
+                <button
+                    class="btn btn-success"
+                    type="submit">
+                    <span class="bi bi-save"></span>
+                    <span>Guardar</span>
+                </button>
+            </form>
+        </div>
+    </body>
+</html>

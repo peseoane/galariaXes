@@ -1,0 +1,41 @@
+<!doctype html>
+<html
+    lang="es"
+    xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div id="logsXml" class="container-fluid text-center">
+            <h3>Resultados</h3>
+            <h4>Errores</h4>
+          <button
+            class="btn btn-primary my-auto"
+            onclick="imprimir('logsXml')">
+            <i class="bi bi-printer"></i>
+          </button>
+            <table class="font-monospace text-small table table-hover table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th scope="col">Etiqueta</th>
+                        <th scope="col">Nivel</th>
+                        <th scope="col">Descripción</th>
+                    </tr>
+                </thead>
+                <tbody
+                    class="text-start"
+                    th:each="log : ${logs}">
+                <tr>
+                    <td class='font-monospace text-center'>
+                        <span class="badge border border-danger text-danger" th:if="${log.etiqueta == null}" th:text="'Null'"></span>
+                        <span th:if="${log.etiqueta != null}" th:text="${log.etiqueta.referencia}"></span>
+                    </td>
+                    <td class="text-center">
+                        <span class="badge border border-info text-info" th:text="${log.nivel?.nivel ?: 'N/A'}"></span>
+                    </td>
+                    <td class="" th:text="${log.descripcion}"></td>
+                </tr>
+
+                </tbody>
+            </table>
+            <h4>Subidos</h4>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+            name="viewport" />
+        <meta
+            content="ie=edge"
+            http-equiv="X-UA-Compatible" />
+        <title>Contratos</title>
+    </head>
+    <body>
+        <!-- Contenedor principal -->
+        <div class="mt-3">
+            <!-- Tabs de navegación -->
+            <ul
+                class="nav nav-tabs"
+                id="myTab"
+                role="tablist">
+                <!-- Tab para crear contrato -->
+                <li
+                    class="nav-item"
+                    role="presentation">
+                    <button
+                        aria-controls="crear-contrato"
+                        aria-selected="true"
+                        class="nav-link active"
+                        data-bs-target="#crear-contrato"
+                        data-bs-toggle="tab"
+                        id="crear-contrato-tab"
+                        role="tab"
+                        type="button">
+                        <span class="bi bi-plus"></span>
+                        <span class="bi bi-file-medical"></span>
+                        Crear Contrato
+                    </button>
+                </li>
+                <!-- Tab para listar contratos -->
+                <li
+                    class="nav-item"
+                    role="presentation">
+                    <button
+                        aria-controls="listar-contratos"
+                        aria-selected="false"
+                        class="nav-link"
+                        data-bs-target="#listar-contratos"
+                        data-bs-toggle="tab"
+                        id="listar-contratos-tab"
+                        role="tab"
+                        type="button">
+                        <span class="bi bi-file-earmark-text"></span>
+                        Listar Contratos
+                    </button>
+                </li>
+                <!-- Tab para asociar contratos -->
+                <li
+                    class="nav-item"
+                    role="presentation">
+                    <button
+                        aria-controls="asociar-contratos"
+                        aria-selected="false"
+                        class="nav-link"
+                        data-bs-target="#asociar-contratos"
+                        data-bs-toggle="tab"
+                        id="asociar-contratos-tab"
+                        role="tab"
+                        type="button">
+                        <span class="bi bi-building-add"></span>
+                        <span class="bi bi-pc"></span>
+                        Asociar Contratos
+                    </button>
+                </li>
+            </ul>
+            <!-- Contenido de los tabs -->
+            <div
+                class="tab-content"
+                id="myTabContent">
+                <!-- Tab de crear contrato -->
+                <div
+                    aria-labelledby="crear-contrato-tab"
+                    class="tab-pane fade show active"
+                    id="crear-contrato"
+                    role="tabpanel">
+                    <div class="card mx-2 my-2">
+                        <div class="card-header">Gestión contratos</div>
+                        <div class="card-body">
+                            <!-- Botón para crear contrato -->
+                            <button
+                                class="btn btn-primary my-1 text-start"
+                                th:attr="hx-get=@{/panel/aplicativo/explorar/crearContrato}"
+                                hx-swap="innerHTML transition:true"
+                                hx-trigger="click"
+                                hx-target="#creacionActual">
+                                <span class="bi bi-plus"></span>
+                                <span class="bi bi-file-medical"></span>
+                                <span>Crear contrato</span>
+                            </button>
+                            <!-- Contenedor para mostrar el resultado de la creación de contrato -->
+                            <div id="creacionActual"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tab de listar contratos -->
+                <div
+                    aria-labelledby="listar-contratos-tab"
+                    class="tab-pane fade"
+                    id="listar-contratos"
+                    role="tabpanel">
+                    <div class="container-fluid input-group mt-3 justify-content-center mx-auto my-auto mb-2">
+                        <!-- Barra de búsqueda global -->
+                        <div class="form-group d-flex">
+                            <input
+                                class="form-control"
+                                id="busquedaTablas"
+                                name="busqueda"
+                                placeholder="Búsqueda global"
+                                type="text" />
+                            <div class="input-group-append">
+                                <!-- Botón para realizar la búsqueda -->
+                                <button
+                                    class="btn btn-success"
+                                    th:attr="hx-get=@{/panel/aplicativo/explorar/queryContratos}"
+                                    hx-indicator="#loadingIconNavbar"
+                                    hx-swap="innerHTML transition:true"
+                                    hx-target="#tablaConBusquedaContratos"
+                                    hx-trigger="load, input changed delay:100ms, search, actualizarTabla from:body"
+                                    type="submit">
+                                    <i class="text-white bi bi-search my-auto"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Contenedor para mostrar la tabla de contratos con resultados de búsqueda -->
+                    <div id="tablaConBusquedaContratos"></div>
+                </div>
+                <!-- Tab de asociar contratos -->
+                <div
+                    aria-labelledby="asociar-contratos-tab"
+                    class="tab-pane fade"
+                    th:attr="hx-get=@{/panel/aplicativo/explorar/asociarContratos}"
+                    hx-swap="innerHTML transition:true"
+                    hx-target="#listaAsociacionContratos"
+                    hx-trigger="interacted, intersect"
+                    id="asociar-contratos"
+                    role="tabpanel">
+                    <!-- Contenedor para mostrar la lista de asociación de contratos -->
+                    <div id="listaAsociacionContratos"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

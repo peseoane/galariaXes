@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang = "en">
+<body>
+<footer class = "fixed-bottom footer p-1" th:fragment = "footer" >
+    <div class = "d-flex my-auto mx-auto align-middle justify-content-center ">
+        <!--
+        <span class="text-white mx-1" th:text="${currentIp}"></span>
+        <span class="text-white mx-1" th:text="${currentHost}"></span>
+        <span class="text-white mx-1" th:text="${currentUser.getName()}"></span>
+        -->
+        <span class = "text-white ">Galaria Empresa Pública de Servizos Sanitarios.</span>
+    </div>
+    <div class="d-none" id="userInfo">
+        <!--
+        <span id="userName" th:text="${currentUser.name}"></span>
+        <span id="userIp" th:text="${currentIp}"></span>
+        <span id="userHost" th:text="${currentHost}"></span>
+        -->
+        <span id="userAuthority" th:text="${currentUser.authorities[0].authority}"></span>
+    </div>
+    <script th:src = "@{/js/custom/imprimir.js}" type="text/javascript"></script>
+</footer>
+</body>
+</html>

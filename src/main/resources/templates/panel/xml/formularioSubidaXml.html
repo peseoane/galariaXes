@@ -1,0 +1,116 @@
+<!doctype html>
+<html
+    lang="es"
+    xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <style>
+            @media (min-width: 720px) {
+                #respuestaXML {
+                    height: 90vh;
+                }
+            }
+
+            .custom-scrollable {
+                max-height: 50vh;
+                overflow-y: auto;
+            }
+
+            .full-height {
+                height: 40vh;
+            }
+        </style>
+        <div
+            class="container-fluid text-center d-flex flex-column justify-content-center mv"
+            id="respuestaXML">
+            <!-- Sección de Subida de XML -->
+            <div class="row full-height">
+                <div class="col-md-6 d-flex flex-column justify-content-center full-height">
+                    <form
+                        class="text-center p-4 border border-primary full-height"
+                        enctype="multipart/form-data"
+                        hx-indicator="#loadingIconNavbar, #secondIndicator"
+                        th:attr="hx-post=@{/panel/aplicativo/xml/procesar}"
+                        hx-swap="outerHTML transition:true"
+                        hx-target="#respuestaXML"
+                        hx-trigger="submit">
+                        <h3>Subida de XML</h3>
+                        <input th:replace="~{fragments/csrf}" />
+                        <input
+                            th:name="wsUuid"
+                            th:type="hidden"
+                            th:value="${wsUuid}" />
+                        <fieldset class="upload_dropZone">
+                            <i class="bi bi-filetype-xml fs-1 mb-3"></i>
+                            <p class="small my-2">Arrastra y suelta el archivo XML dentro de la región punteada<br /><i>o</i></p>
+                            <input
+                                accept="application/xml"
+                                class="position-absolute invisible"
+                                id="upload_xml"
+                                multiple
+                                name="upload_xml"
+                                required
+                                type="file" />
+                            <label
+                                class="btn btn-upload mb-3"
+                                for="upload_xml"
+                                >Seleccionar archivo</label
+                            >
+                            <div class="upload_gallery d-flex flex-wrap justify-content-center gap-3 mb-0"></div>
+                            <p
+                                class="mt-2"
+                                id="file_name"></p>
+                            <div
+                                class="spinner-border text-primary cargando"
+                                id="secondIndicator"
+                                role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </fieldset>
+                        <button
+                            class="btn btn-primary mt-3"
+                            disabled
+                            id="submit_button">
+                            Enviar
+                        </button>
+                        <button
+                            class="btn btn-secondary mt-3"
+                            id="clear_button"
+                            type="button">
+                            Limpiar
+                        </button>
+                    </form>
+                </div>
+                <!-- Sección para los archivos subidos -->
+                <div class="col-md-6 d-flex flex-column justify-content-center">
+                    <div class="row full-height mb-3 p-4 border border-primary custom-scrollable">
+                        <h3>Archivos subidos</h3>
+                        <ul
+                            class="list-group"
+                            id="fileList">
+                            <!-- Los elementos de la lista se añadirán aquí -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Sección para los archivos a procesar -->
+            <div class="row full-height">
+                <div class="mb-3 p-4 col-md-12 d-flex flex-column justify-content-center">
+                    <div class="row full-height mb-3 p-4 border border-primary custom-scrollable">
+                        <h3>Archivos a procesar</h3>
+                        <div
+                            hx-ext="ws"
+                            hx-target="#xmlNotifications"
+                            th:attr="ws-connect=@{'/ws/xmlNotifications?uuid=' + ${wsUuid}}"></div>
+                        <ul
+                            class="list-group"
+                            id="xmlNotifications">
+                            <!-- Los elementos de notificación se añadirán aquí -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script th:src="@{/js/custom/formularioXml.js}"></script>
+        <script></script>
+    </body>
+</html>

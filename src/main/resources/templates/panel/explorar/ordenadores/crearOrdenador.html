@@ -1,0 +1,190 @@
+<!doctype html>
+<html
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Crear Ordenador</title>
+    </head>
+    <body>
+        <div class="card">
+            <div class="card-header align-middle d-flex">
+                <h5 class="mx-2 my-auto">Crear Ordenador</h5>
+            </div>
+            <form
+                class="card-body"
+                hx-trigger="submit"
+                method="post"
+                th:action="@{/crearOrdenador}"
+                th:id="'crearOrdenadorForm'"
+                th:object="${ordenador}">
+                <div class="col">
+                    <!-- Etiqueta -->
+                    <div class="form-group">
+                        <label for="etiqueta">Etiqueta</label>
+                        <input
+                            list="etiquetas-list"
+                            class="form-control"
+                            id="etiqueta"
+                            type="text" />
+                        <datalist
+                            class="datalistOptions"
+                            id="etiquetas-list">
+                            <option
+                                th:each="etiqueta : ${etiquetas}"
+                                th:value="${etiqueta.referencia}"></option>
+                        </datalist>
+                    </div>
+                    <!-- Número de Serie -->
+                    <div class="form-group">
+                        <label for="numeroSerie">Número de Serie</label>
+                        <input
+                            class="form-control"
+                            id="numeroSerie"
+                            th:field="*{numeroSerie}"
+                            type="text" />
+                    </div>
+
+                    <!-- Modelo PC -->
+                    <div class="form-group">
+                        <label for="modeloOrdenador">Modelo Ordenador</label>
+                        <select
+                            class="form-control"
+                            id="modeloOrdenador"
+                            th:field="*{modeloOrdenador.id}">
+                            <option
+                                th:each="modelo : ${modelosOrdenador}"
+                                th:text="${modelo.referencia}"
+                                th:value="${modelo.id}"></option>
+                        </select>
+                    </div>
+
+                    <!-- Sistema Operativo -->
+                    <div class="form-group">
+                        <label for="sistemaOperativo">Sistema Operativo</label>
+                        <select
+                            class="form-control"
+                            id="sistemaOperativo"
+                            th:field="*{sistemaOperativo.id}">
+                            <option
+                                th:each="so : ${sistemasOperativos}"
+                                th:text="${so.nombre} + ' ' + ${so.codename}"
+                                th:value="${so.id}"></option>
+                        </select>
+                    </div>
+
+                    <!-- RAM -->
+                    <div class="form-group">
+                        <label for="ram">RAM</label>
+                        <input
+                            disabled
+                            class="form-control"
+                            id="ram"
+                            th:field="*{ram}"
+                            type="number" />
+                    </div>
+
+                    <!-- Garantía -->
+                    <div class="form-group">
+                        <label for="garantia">Garantía</label>
+                        <input
+                            class="form-control"
+                            id="garantia"
+                            name="garantia"
+                            type="datetime-local" />
+                    </div>
+
+                    <!-- Propuesto retirada -->
+                    <div class="form-group">
+                        <label for="propuestaRetirada">Propuesto retirada</label>
+                        <input
+                            class="form-check-input"
+                            id="propuestaRetirada"
+                            th:field="*{propuestoRetirada}"
+                            type="checkbox" />
+                    </div>
+
+                    <!-- Activo -->
+                    <div class="form-group">
+                        <label for="activo">Activo</label>
+                        <input
+                            class="form-check-input"
+                            id="activo"
+                            th:field="*{activo}"
+                            type="checkbox" />
+                    </div>
+
+                    <!-- Notas -->
+                    <div class="form-group">
+                        <label for="notas">Notas</label>
+                        <textarea
+                            class="form-control"
+                            id="notas"
+                            maxlength="1024"
+                            rows="3"
+                            th:field="*{notas}"></textarea>
+                    </div>
+
+                    <!-- Fecha de Alta -->
+                    <div class="form-group">
+                        <label for="fechaAlta">Fecha de Alta</label>
+                        <input
+                            class="form-control"
+                            id="fechaAlta"
+                            th:value="${#temporals.format(ordenador.fechaAlta, 'yyyy-MM-dd''T''HH:mm')}"
+                            type="datetime-local" />
+                    </div>
+
+                    <!-- Fecha de Actualización -->
+                    <div class="form-group">
+                        <label for="fechaActualizacion">Fecha de Actualización</label>
+                        <input
+                            class="form-control"
+                            disabled
+                            id="fechaActualizacion"
+                            readonly
+                            th:value="${#temporals.format(ordenador.fechaActualizacion, 'yyyy-MM-dd''T''HH:mm')}"
+                            type="datetime-local" />
+                    </div>
+
+                    <!-- Fecha de Baja -->
+                    <div class="form-group">
+                        <label for="fechaBaja">Fecha de Baja</label>
+                        <input
+                            class="form-control"
+                            id="fechaBaja"
+                            th:value="${#temporals.format(ordenador.fechaBaja, 'yyyy-MM-dd''T''HH:mm')}"
+                            type="datetime-local" />
+                    </div>
+
+                    <button
+                        class="my-auto btn btn-success"
+                        id="guardar"
+                        type="submit">
+                        <span class="bi bi-floppy"></span>
+                        Guardar
+                    </button>
+                    <button
+                        class="my-auto btn btn-danger"
+                        id="cancelar"
+                        type="reset">
+                        <span class="bi bi-x-circle"></span>
+                        Limpiar
+                    </button>
+                    <button
+                        class="my-auto btn btn-primary"
+                        id="reiniciar"
+                        type="button">
+                        <span class="bi bi-arrow-counterclockwise"></span>
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+        <script>
+            document.getElementById("cancelar").addEventListener("click", function () {
+                document.getElementById("creacionActual").innerHTML = "";
+            });
+        </script>
+    </body>
+</html>

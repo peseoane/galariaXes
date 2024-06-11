@@ -1,0 +1,31 @@
+<!doctype html>
+<html
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org">
+    <header th:replace="~{fragments/header :: styles}"></header>
+    <body>
+        <main
+            class="vh-100 vw-100 min-vh-100 m-0 p-0"
+            id="bienvenida">
+            <div class="row">
+                <section
+                    class="col d-flex justify-content-center align-items-center fw-bold"
+                    id="columnaLoginIzquierda">
+                    <div class="d-flex flex-column">
+                        <div th:replace="~{/login/hero :: hero}"></div>
+                        <form th:replace="~{/login/formularioLogin :: formularioLogin}"></form>
+                        <div th:fragment="~{/login/error :: error}"></div>
+                    </div>
+                </section>
+                <div
+                    class="col vh-100 d-none d-lg-block"
+                    id="columnaLoginDerecha">
+                    <img
+                        alt="galeria"
+                        class="hidden img-fluid h-100 w-100 object-fit-cover"
+                        th:src="@{/img/fachadaMeixoeiro.webp}" />
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

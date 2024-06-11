@@ -1,0 +1,61 @@
+<form class="w-100 w-xxl-3/4 w-xxl-1/3 pt-2 pt-lg-5 pb-2"
+        th:attr="hx-get=@{/login}"
+        hx-push-url="true"
+        hx-swap="innerHTML transition:true"
+        hx-target="body"
+        th:fragment="formularioLogin">
+    <input th:replace="~{fragments/csrf}" />
+    <h3 class="h4">Inicio profesionais</h3>
+    <div class="mb-3 flex-column">
+        <label
+                class="form-label"
+                for="username"
+        >Usuario:
+        </label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person"></i></span>
+            <input
+                    autocomplete="username"
+                    class="form-control"
+                    id="username"
+                    name="username"
+                    placeholder="greghouse"
+                    required
+                    type="text" />
+        </div>
+    </div>
+    <div class="mb-3">
+        <label
+                class="form-label"
+                for="password"
+        >Contrasinal</label
+        >
+        <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-key"></i>
+                                    </span>
+            <input
+                    autocomplete="current-password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    placeholder=""
+                    required
+                    type="password" />
+        </div>
+    </div>
+    <div class="d-flex">
+        <button
+                class="btn btn-primary"
+                id="botonIngresar">
+            <i class="bi bi-box-arrow-in-right mx-1"></i>
+            <span>Ingresar</span>
+        </button>
+        <button
+                class="btn btn-secondary"
+                id="botonReset">
+            <i class="bi bi-x-circle mx-1"></i>
+            <span>Borrar</span>
+        </button>
+    </div>
+</form>

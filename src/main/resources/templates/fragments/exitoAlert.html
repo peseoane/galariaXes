@@ -1,0 +1,17 @@
+<div
+    class="alert alert-success alert-dismissible fade show"
+    role="alert">
+    <strong th:text="${msg}"></strong>
+    <button
+        aria-label="Close"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        onclick="clearCreacionActual()"
+        type="button"></button>
+</div>
+
+<script>
+    function clearCreacionActual() {
+        document.getElementById("creacionActual").innerHTML = "";
+    }
+</script>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+</head>
+<body>
+<!-- Para que funcione el highlight de la barra de búsqueda debemos mantener
+ el ID de la tabla como: tablaConBusqueda -->
+<div class="container-fluid input-group mt-3">
+    <input
+            class="form-control"
+            id="busquedaTablas"
+            name="busqueda"
+            placeholder="Búsqueda global"
+            hx-indicator='#loadingIconNavbar'
+            hx-swap='innerHTML transition:true'
+            hx-target='#tablaConBusqueda'
+            hx-trigger='load, input changed delay:100ms, search, keyup delay:100ms, keydown delay:100ms'
+            th:attr="hx-get=@{/panel/aplicativo/explorar/queryMonitores}"
+            type="text" />
+    <div class="input-group-append">
+        <button class="btn btn-success" type="submit">
+            <i class="text-white bi bi-search my-auto"></i>
+        </button>
+    </div>
+</div>
+<div class="row row-cols-1" id="tablaConBusqueda"></div>
+<script th:src="@{/js/custom/busquedaTabla.js}" type="text/javascript"></script>
+</body>
+</html>

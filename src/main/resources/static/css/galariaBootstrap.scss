@@ -1,0 +1,441 @@
+@import "../../../../../node_modules/bootstrap/scss/functions";
+// @import "decreto112-2021-xunta-estilos.css";
+
+$background: #fbfbfe;
+$primary: #007bc2;
+$secondary: #00365d;
+$accent: #f8690d;
+$success: #006737;
+$info: #17a2b8;
+$warning: #ffc107;
+$danger: #bb1535;
+
+$body-bg: $background;
+$body-bg-dark: #001e33;
+
+$body-color: $primary;
+$body-color-dark: #ffffff;
+
+$font-family-base: "xunta-sans";
+$font-family-monospace: "Ubuntu Sans Mono";
+
+$border-radius: .1rem;
+$justify-content: center;
+$align-items: center;
+$align-content: center;
+$form-control-width: 100%;
+$focus-ring-color: $accent;
+
+$headings-color: $primary;
+$headings-color-dark: $background;
+
+$color: $primary;
+$color-dark: $background;
+
+$font-size-base: 1rem;
+
+$input-color: $primary;
+$input-color-dark: $background;
+
+$input-focus-color: $accent;
+
+$table-primary: $primary;
+
+@import "../../../../../node_modules/bootstrap-icons/font/bootstrap-icons";
+@import "fonts.scss";
+
+@import "../../../../../node_modules/bootstrap/scss/variables";
+@import "../../../../../node_modules/bootstrap/scss/variables-dark";
+@import "../../../../../node_modules/bootstrap/scss/maps";
+@import "../../../../../node_modules/bootstrap/scss/mixins";
+@import "../../../../../node_modules/bootstrap/scss/utilities";
+@import "../../../../../node_modules/bootstrap/scss/root";
+@import "../../../../../node_modules/bootstrap/scss/reboot";
+
+@import "../../../../../node_modules/bootstrap/scss/type";
+@import "../../../../../node_modules/bootstrap/scss/images";
+@import "../../../../../node_modules/bootstrap/scss/containers";
+@import "../../../../../node_modules/bootstrap/scss/grid";
+@import "../../../../../node_modules/bootstrap/scss/tables";
+
+@import "../../../../../node_modules/bootstrap/scss/toasts";
+@import "../../../../../node_modules/bootstrap/scss/forms";
+@import "../../../../../node_modules/bootstrap/scss/buttons";
+@import "../../../../../node_modules/bootstrap/scss/transitions";
+@import "../../../../../node_modules/bootstrap/scss/dropdown";
+@import "../../../../../node_modules/bootstrap/scss/button-group";
+@import "../../../../../node_modules/bootstrap/scss/nav";
+@import "../../../../../node_modules/bootstrap/scss/navbar"; // Requires nav
+@import "../../../../../node_modules/bootstrap/scss/card";
+@import "../../../../../node_modules/bootstrap/scss/breadcrumb";
+@import "../../../../../node_modules/bootstrap/scss/accordion";
+@import "../../../../../node_modules/bootstrap/scss/pagination";
+@import "../../../../../node_modules/bootstrap/scss/badge";
+@import "../../../../../node_modules/bootstrap/scss/alert";
+@import "../../../../../node_modules/bootstrap/scss/progress";
+@import "../../../../../node_modules/bootstrap/scss/list-group";
+@import "../../../../../node_modules/bootstrap/scss/close";
+@import "../../../../../node_modules/bootstrap/scss/toasts";
+@import "../../../../../node_modules/bootstrap/scss/modal"; // Requires transitions
+@import "../../../../../node_modules/bootstrap/scss/tooltip";
+@import "../../../../../node_modules/bootstrap/scss/popover";
+@import "../../../../../node_modules/bootstrap/scss/carousel";
+@import "../../../../../node_modules/bootstrap/scss/spinners";
+@import "../../../../../node_modules/bootstrap/scss/offcanvas"; // Requires transitions
+@import "../../../../../node_modules/bootstrap/scss/placeholders";
+
+// Helpers
+@import "../../../../../node_modules/bootstrap/scss/helpers";
+
+// Utilities
+@import "../../../../../node_modules/bootstrap/scss/utilities/api";
+
+$table-variants: (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark,
+);
+
+@each $variant, $color in $table-variants {
+    .table-#{$variant} {
+        background-color: $color;
+        color: $color;
+    }
+}
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+// HTMX
+.cargando {
+    opacity: 0;
+    max-height: 2em;
+    transition: opacity 1s ease-out;
+    transition-duration: 1s;
+    transition-delay: 4s;
+}
+
+.htmx-request .cargando {
+    opacity: 1;
+    transition: opacity 100ms ease-in;
+}
+
+.htmx-request.cargando {
+    opacity: 1;
+    transition: opacity 0s;
+}
+
+.accordion-content-scrollable {
+    max-height: 20rem; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto;
+}
+
+
+//
+// Custom styles
+//
+
+.navbar {
+    background-color: $primary;
+}
+
+.bi {
+    width: 1em;
+    height: 1em;
+}
+
+i {
+    font-style: normal;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+a.nav-link {
+    color: $white;
+}
+
+a.nav-link.active {
+    color: $white !important;
+    font-weight: bold;
+}
+
+a:hover,
+a.nav-link:hover,
+a.nav-link.active:hover {
+    color: $white;
+    text-decoration: underline;
+}
+
+nav .bi {
+    color: white !important;
+}
+
+nav input {
+    border: white solid 1px;
+    color: white;
+}
+
+.table-hover td:hover {
+    background-color: $accent;
+    color: $light;
+}
+
+.form-control {
+  border: $success solid 1px;
+}
+
+.form-control::placeholder {
+    color: $success;
+}
+
+
+
+[data-bs-theme="dark"] {
+    p,
+    label {
+        color: $body-color-dark;
+    }
+
+    i.bi {
+        color: $body-color-dark;
+    }
+
+    .input-group-text {
+        background-color: $secondary;
+        color: $light;
+    }
+
+    .input {
+        color: $body-color-dark;
+    }
+
+    footer,
+    nav {
+        background-color: $secondary;
+    }
+
+    .nav-tabs .nav-link {
+        background: none;
+        border: $primary solid 1px;
+        color: white;
+    }
+
+    .nav-tabs .nav-link.active {
+        background: none;
+        border: $accent solid 1px;
+    }
+
+    li.nav-item {
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: $primary;
+        }
+    }
+
+    .card,
+    .card-title,
+    .card-body,
+    .card-header,
+    .border,
+    .accordion-button,
+    .table-bordered {
+        border: $secondary solid 1px;
+    }
+
+  .table-primary {
+        background-color: $secondary;
+        border: $secondary solid 1px;
+        color: $light;
+    }
+
+    .table-primary th,
+    .table-primary td {
+        background-color: $secondary;
+        color: $light;
+    }
+}
+
+[data-bs-theme="light"] {
+    .bi {
+        fill: $primary !important; // Cambia el color de los iconos a primario en el tema claro
+    }
+
+    p,
+    label {
+        color: $body-color;
+    }
+
+    .input-group-text {
+        background-color: $primary;
+        color: $light;
+    }
+
+    footer,
+    nav {
+        background-color: $primary;
+    }
+
+    .nav-tabs .nav-link {
+        background: $primary; // Color cuando la pestaña no está activa
+        color: white;
+        border: none;
+    }
+
+    .nav-tabs .nav-link.active {
+        background: $secondary; // Color cuando la pestaña está activa
+    }
+
+    li.nav-item {
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: $secondary;
+        }
+    }
+
+    .card,
+    .card-title,
+    .card-body,
+    .card,
+    .card-header,
+    .accordion-button,
+    .input,
+    .table-bordered {
+        border: $primary solid 1px;
+    }
+
+    .table-primary {
+        background-color: $primary;
+        color: $light;
+        border: $primary solid 1px;
+    }
+
+    .table-primary th,
+    .table-primary td {
+        background-color: $primary;
+        color: $light;
+    }
+}
+
+.modal {
+    backdrop-filter: blur(5px);
+}
+
+footer,
+footer a,
+footer span,
+footer a,
+footer i,
+footer div {
+    color: $white !important;
+}
+
+footer a:hover,
+footer span:hover,
+footer a:hover,
+footer i:hover {
+    color: $accent !important;
+}
+
+@media print {
+
+    * {
+        background-color: #ffffff !important;
+        color: black !important;
+        border-color: black !important;
+        font-size: 1rem;
+
+    }
+
+    body {
+        margin: 0cm;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: black !important;
+        background: none !important;
+        margin-bottom: 3em;
+        border: none;
+    }
+
+    .card,
+    .card-title,
+    .card-body,
+    .card-header {
+        border: none !important;
+    }
+
+    .border,
+    .accordion-button,
+    .table-primary,
+    .table,
+    .table-*,
+    .table-hover,
+    .table-bordered,
+    .table-striped,
+    .table-responsive {
+        color: black !important;
+        background: #ffffff none !important;
+        border: black solid 1px !important;
+    }
+
+    .accordion,
+    .accordion-body,
+    .accordion-item,
+    .accordion-header,
+    .accordion-collapse {
+        background-color: #ffffff !important;
+        color: black !important;
+        border: none !important;
+        border-radius: 0;
+        $accordion-border-radius: 0;
+    }
+
+    .accordion-button, {
+        border-radius: 0;
+        $accordion-border-radius: 0;
+
+    }
+
+
+    *:hover {
+        background-color: #ffffff !important;
+    }
+
+    .btn {
+        display: none;
+    }
+
+    .bg-primary,
+    .bg-secondary,
+    .bg-success,
+    .bg-info,
+    .bg-warning,
+    .bg-danger,
+    .bg-light,
+    .bg-dark,
+    .bg-white {
+        background-color: #ffffff !important;
+        color: black !important;
+    }
+
+    img {
+        display: block;
+        margin: 0 auto;
+    }
+
+}
