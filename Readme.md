@@ -113,4 +113,4 @@ de los equipos y cargar mediante `IEX` el Script desde el aplicativo.
 ## Contacto
 
 Informática Galaria
-informaticagalaria@sergas.es
+informatica.galaria@sergas.es
