@@ -6,7 +6,7 @@ En base a las directivas de la AMTEGA (Axencia para a Modernización Tecnolóxic
 > supone una  apuesta estratégica del Gobierno gallego  en consonancia con el marco estratégico tecnológico de la Xunta de Galicia, 
 > la Agenda Digital 2020 (ADG 2020), que recoge el software libre como uno de los principios para la gestión eficiente de las distintas iniciativas.
 
-Esta pequeña aplicación, destinada en un inicio para la gestión interna del inventario informático de Galaria EPSA y seguimiento
+Esta pequeña aplicación, destinada en un inicio para la gestión interna del inventario informático de Galaria EPSS y seguimiento
 de contratos públicos / menores, se libera bajo las licencias recomendades de la Unión Europea.
 
 ![EUPL License Logo](./src/main/resources/static/svg/euplBottom.svg)
@@ -113,4 +113,4 @@ de los equipos y cargar mediante `IEX` el Script desde el aplicativo.
 ## Contacto
 
 Informática Galaria
-informaticagalaria@sergas.es
+informatica.galaria@sergas.es
